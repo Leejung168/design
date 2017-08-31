@@ -1,0 +1,283 @@
+<html>
+<head>
+</head>
+<body>
+<div class="container">
+	<div class="row">       
+        <div class="col-md-12">
+	        <a href="{{ url_for('homepage')}}"><h3>ChinaNetCloud</h3></a>
+	        <div class="table-responsive">
+	            <div>
+	              <table id="mytable" class="table table-bordred table-striped table-hover">
+	                   
+	                   <thead>
+		                    <!-- <th><input type="checkbox" id="checkall" /></th> -->
+		                    <th>ID</th>
+		                    <th>Name</th>
+		                    <th>Public IP</th>
+		                    <th>Private IP</th>
+		                    <th>Port</th>
+		                    <th>Status</th>
+		                    <th>Service</th>
+		                    <th>IDC</th>
+		                    <th>Edit</th>
+		                    <th>Delete</th>
+	                   </thead>
+
+	                   <tbody>
+	                        <!-- {% for s in search %} -->
+							    <tr>
+								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
+								    <td>
+										<input type="checkbox" value="">
+								    </td>
+									<td>srv-nc-lb1</td>
+			                        <td>123.104.34.234</td>
+			                        <td>10.1.10.23</td>
+			                        <td>40022</td>
+			                        <td>Runing</td>
+			                        <td>Nginx-Mysql</td>
+			                        <td>Bj-AWS</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+										    <span class="glyphicon glyphicon-pencil"></span>
+										</button></p>
+									</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
+											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+								            <span class="glyphicon glyphicon-trash"></span>
+								        </button></p>
+								     </td>
+							    </tr>
+							    <tr>
+								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
+								    <td>
+										<input type="checkbox" value="">
+								    </td>
+									<td>srv-nc-lb1</td>
+			                        <td>123.104.34.234</td>
+			                        <td>10.1.10.23</td>
+			                        <td>40022</td>
+			                        <td>Runing</td>
+			                        <td>Nginx-Mysql</td>
+			                        <td>Bj-AWS</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+										    <span class="glyphicon glyphicon-pencil"></span>
+										</button></p>
+									</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
+											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+								            <span class="glyphicon glyphicon-trash"></span>
+								        </button></p>
+								     </td>
+							    </tr>
+							    <tr>
+								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
+								    <td>
+										<input type="checkbox" value="">
+								    </td>
+									<td>srv-nc-lb1</td>
+			                        <td>123.104.34.234</td>
+			                        <td>10.1.10.23</td>
+			                        <td>40022</td>
+			                        <td>Runing</td>
+			                        <td>Nginx-Mysql</td>
+			                        <td>Bj-AWS</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
+											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+										    <span class="glyphicon glyphicon-pencil"></span>
+										</button></p>
+									</td>
+								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
+											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+								            <span class="glyphicon glyphicon-trash"></span>
+								        </button></p>
+								     </td>
+							    </tr>
+
+						    <!-- {% endfor %} -->
+	                   </tbody>
+	        
+	              </table>
+	             </div>
+                   
+
+                <div class="row">
+                    <div class="col-lg-12">
+                    	<button class="btn btn-default btn-lg btn-block">Detailed Information</button>
+                    </div>
+	                <div class="col-lg-6">
+	                    <div class="">
+	                        <!-- /.panel-heading -->
+	                        <div class="panel-body">
+	                            <div class="table-responsive">
+	                                <table class="table">
+	                                    <tbody>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">实例 ID</td>
+	                                            <td>i-ec0088d4</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">实例状态</td>
+	                                            <td>running</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">实例类型</td>
+	                                            <td>r3.2xlarge</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">私有 DNS</td>
+	                                            <td>ip-10-5-20-10.cn-north-1.compute.internal</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">私有 IP</td>
+	                                            <td>10.5.20.10</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">根设备</td>
+	                                            <td>/dev/xvda</td>
+	                                        </tr>
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                            <!-- /.table-responsive -->
+	                        </div>
+	                        <!-- /.panel-body -->
+	                    </div>
+	                    <!-- /.panel -->
+	                </div>
+	                <!-- /.col-lg-6 -->
+	                <div class="col-lg-6">
+	                    <div class="">
+	                        <!-- /.panel-heading -->
+	                        <div class="panel-body">
+	                            <div class="table-responsive">
+	                                <table class="table table-borderless">
+	                                    <tbody>
+	                                        <tr>
+	                                            <td></td>
+
+	                                            <td class="text-right">公有 IP</td>
+	                                            <td>-</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">映射 IP</td>
+	                                            <td>10.1.124.100</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">平台</td>
+	                                            <td>AWS</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">拥有者</td>
+	                                            <td>ChinaNetCloud</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">启动时间</td>
+	                                            <td>2016年3月15日 UTC+8上午11:14:45 (12821 小时)</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">RAM 磁盘 ID</td>
+	                                            <td>-</td>
+	                                        </tr>
+	                                        <tr>
+	                                            <td></td>
+	                                            <td class="text-right">状态转换原因消息</td>
+	                                            <td>-</td>
+	                                        </tr>
+	                                    </tbody>
+	                                </table>
+	                            </div>
+	                            <!-- /.table-responsive -->
+	                        </div>
+	                        <!-- /.panel-body -->
+	                    </div>
+	                    <!-- /.panel -->
+	                </div>
+                <!-- /.col-lg-6 -->
+            </div>      
+         </div>
+	</div>
+
+
+
+	<!-- The Update dialog -->
+	<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+	        <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+	      </div>
+	      <div class="modal-body">
+			   <!--<div class="form-group">-->
+					<input type="hidden" id="u_hostid" placeholder="hostid"/>
+		        <!--</div>-->
+
+		        <div class="form-group">
+					<input type="text" class="form-control" id="u_servername" placeholder="servername"/>
+		        </div>
+			    <div class="form-group">
+		            <input class="form-control" type="text" id="u_ip" placeholder="ip">
+		        </div>
+			    <div class="form-group">
+		            <input class="form-control " type="text" id="u_port" placeholder="port">
+		        </div>
+
+		        <div class="form-group">
+		            <input class="form-control " type="text" id="u_username" placeholder="username">
+		        </div>
+			  <div class="form-group">
+		            <input class="form-control " type="text" id="u_password" placeholder="username">
+		        </div>
+		        <div class="form-group">
+		            <textarea rows="2" class="form-control" id="u_comment" placeholder="comment"></textarea>
+		        </div>
+	      </div>
+	      <div class="modal-footer ">
+	        <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" id="lambertupdate" style="width: 100%; "><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+	      </div>
+	    </div>
+	  </div>
+	 </div>
+
+
+
+
+	<!-- The Delete dialog -->
+	<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+	   <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+	        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+	      </div>
+	      <div class="modal-body">
+	       <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?-> ID=
+	           <input type="text" name="passwd_id" id="passwd_id" />
+	       </div>
+	      </div>
+	      <div class="modal-footer ">
+	        <button type="button" class="btn btn-success" data-dismiss="modal" id="lambertyes"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+	      </div>
+	    </div>
+	  </div>
+</div>
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+<!--<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>-->
+</body>
+</html>
