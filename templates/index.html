@@ -272,21 +272,9 @@
                         </li>
                         <li>
                             <a href="#" id="customer_group"><i class="fa fa-sitemap fa-fw"></i>Customer-Group<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a id="lambert" href="#"><i class="fa fa-heart fa-fw"></i>Lambert</a>
-                                </li>
-                                <li>
-                                    <a id="chinanetcloud" href="#"><i class="fa fa-smile-o fa-fw"></i>ChinaNetCloud</a>
+                            <ul class="nav nav-second-level" id="customer">
+                                <!--Data will insert to here via JS-->
 
-                                </li>
-                                <li>
-                                    <a id="sixthtone" href="#"><i class="fa fa-smile-o fa-fw"></i>Sixthtone</a>
-
-                                </li>
-                                <li>
-                                    <a id="yijiedai" href="#"><i class="fa fa-smile-o fa-fw"></i>Yijiedai</a>
-                                </li>
                             </ul>
                         </li>
                         
@@ -317,7 +305,8 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="http://localhost/dist/js/sb-admin-2.js"></script>
-    <script src="http://localhost/js/index.js"></script>
+    <script src="{{ url_for('static', filename='index.js')}}"></script>
+    <!--<script src="http://localhost/js/index.js"></script>-->
 
 </body>
 

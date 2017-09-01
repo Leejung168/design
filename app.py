@@ -19,11 +19,11 @@ def index():
     return render_template("index.html")
 
 
-@app.route('/customer')
+@app.route('/customer', methods=['GET', 'POST'])
 def customer():
     customers = []
-    idd = request.args.get('id')
-    if idd == 1:
+    idd = request.form.get('iid')
+    if idd == "1":
         try:
             customer_group=session.query(CustomerGroup).all()
             for c in customer_group:
@@ -31,8 +31,7 @@ def customer():
         except:
             customers.append("Error")
     else:
-       customers.append("Error")
-    print customers
+        customers.append("Error")
     return jsonify(customers)
 
 
