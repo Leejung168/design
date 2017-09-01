@@ -3,9 +3,19 @@
 </head>
 <body>
 <div class="container">
-	<div class="row">       
+	<div class="row">
+	    <div class="col-md-12">
+		    <div class="input-group custom-search-form">
+	                <input type="text" class="form-control" placeholder="Search...">
+	                <span class="input-group-btn">
+	                    <button class="btn btn-default" type="button">
+	                        <i class="fa fa-search"></i>
+	                    </button>
+	               </span>
+	        </div>
+        </div>
+
         <div class="col-md-12">
-	        <a href="{{ url_for('homepage')}}"><h3>ChinaNetCloud</h3></a>
 	        <div class="table-responsive">
 	            <div>
 	              <table id="mytable" class="table table-bordred table-striped table-hover">
@@ -25,9 +35,7 @@
 	                   </thead>
 
 	                   <tbody>
-	                        <!-- {% for s in search %} -->
 							    <tr>
-								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
 								    <td>
 										<input type="checkbox" value="">
 								    </td>
@@ -39,18 +47,17 @@
 			                        <td>Nginx-Mysql</td>
 			                        <td>Bj-AWS</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+											<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
 										    <span class="glyphicon glyphicon-pencil"></span>
 										</button></p>
 									</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
-											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+											<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
 								            <span class="glyphicon glyphicon-trash"></span>
 								        </button></p>
 								     </td>
 							    </tr>
 							    <tr>
-								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
 								    <td>
 										<input type="checkbox" value="">
 								    </td>
@@ -62,18 +69,17 @@
 			                        <td>Nginx-Mysql</td>
 			                        <td>Bj-AWS</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+											<button class="btn btn-primary btn-xs" data-title="Edit"  data-toggle="modal" data-target="#edit" >
 										    <span class="glyphicon glyphicon-pencil"></span>
 										</button></p>
 									</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
-											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+											<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
 								            <span class="glyphicon glyphicon-trash"></span>
 								        </button></p>
 								     </td>
 							    </tr>
 							    <tr>
-								    <!-- <td><input type="checkbox" class="checkthis" /></td> -->
 								    <td>
 										<input type="checkbox" value="">
 								    </td>
@@ -85,28 +91,34 @@
 			                        <td>Nginx-Mysql</td>
 			                        <td>Bj-AWS</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Edit">
-											<button class="btn btn-primary btn-xs" data-title="Edit" id = {{ s.host_id|string + ":" + s.passwordid|string }} onclick="editinfo(this)" data-toggle="modal" data-target="#edit" >
+											<button class="btn btn-primary btn-xs" data-title="Edit"  data-toggle="modal" data-target="#edit" >
 										    <span class="glyphicon glyphicon-pencil"></span>
 										</button></p>
 									</td>
 								    <td><p data-placement="top" data-toggle="tooltip" title="Delete">
-											<button class="btn btn-danger btn-xs" data-title="Delete" id="{{ s.passwordid }}" onclick="deleteinfo(this)" data-toggle="modal" data-target="#delete" >
+											<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
 								            <span class="glyphicon glyphicon-trash"></span>
 								        </button></p>
 								     </td>
 							    </tr>
-
-						    <!-- {% endfor %} -->
 	                   </tbody>
-	        
 	              </table>
-	             </div>
+	            </div>
                    
+                <div class="col-lg-12">
+                        <br>
+                        <br>
+                    	<!-- <button class="btn btn-default btn-lg btn-block"></button> -->
+                </div>
 
                 <div class="row">
-                    <div class="col-lg-12">
-                    	<button class="btn btn-default btn-lg btn-block">Detailed Information</button>
-                    </div>
+                </div>   
+            </div>
+
+
+            <!-- Detailed pages -->
+            <div class="row">
+                    <!--  left bottom -->
 	                <div class="col-lg-6">
 	                    <div class="">
 	                        <!-- /.panel-heading -->
@@ -147,16 +159,13 @@
 	                                    </tbody>
 	                                </table>
 	                            </div>
-	                            <!-- /.table-responsive -->
 	                        </div>
-	                        <!-- /.panel-body -->
 	                    </div>
-	                    <!-- /.panel -->
 	                </div>
-	                <!-- /.col-lg-6 -->
+
+	                <!--  Right bottom -->
 	                <div class="col-lg-6">
 	                    <div class="">
-	                        <!-- /.panel-heading -->
 	                        <div class="panel-body">
 	                            <div class="table-responsive">
 	                                <table class="table table-borderless">
@@ -200,16 +209,11 @@
 	                                    </tbody>
 	                                </table>
 	                            </div>
-	                            <!-- /.table-responsive -->
 	                        </div>
-	                        <!-- /.panel-body -->
 	                    </div>
-	                    <!-- /.panel -->
 	                </div>
-                <!-- /.col-lg-6 -->
-            </div>      
-         </div>
-	</div>
+            </div>
+	    </div>
 
 
 
@@ -275,7 +279,7 @@
 	      </div>
 	    </div>
 	  </div>
-</div>
+    </div>
 
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
 <!--<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>-->

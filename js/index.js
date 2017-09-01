@@ -1,8 +1,8 @@
 $("#chinanetcloud").click(function(){
-  $('#page-wrapper').load('server.html');
+  $('#page-wrapper').load('server');
 })
 
 
 $("#keepass").click(function(){
-  $('#page-wrapper').load('keepass.html');
+  $('#page-wrapper').load('keepass');
 })
