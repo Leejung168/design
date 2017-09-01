@@ -7,24 +7,23 @@ from models import Base, CustomerGroup, ServerGroup
 
 app = Flask(__name__)
 
-#Create Database session
+# Create Database session
 engine = create_engine('mysql://root:lambert@127.0.0.1:3306/customergroup')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-#Index Page
 @app.route('/')
 def index():
     return render_template("index.html")
 
-#Get Customer List
-@app.route('/get_cu_list/', methods=['POST'])
-def get_cu_list():
-    customers=[]
-    id = request.args.get('id')
-    if id==1:
+
+@app.route('/customer')
+def customer():
+    customers = []
+    idd = request.args.get('id')
+    if idd == 1:
         try:
             customer_group=session.query(CustomerGroup).all()
             for c in customer_group:
@@ -33,14 +32,20 @@ def get_cu_list():
             customers.append("Error")
     else:
        customers.append("Error")
+    print customers
     return jsonify(customers)
 
-#Customer--->Servers Page
+
+@app.route('/home')
+def home():
+    return render_template("index.html")
+
+# Customer--->Servers Page
 @app.route('/server')
 def server():
     return render_template("server.html")
 
-#Keepass Page
+
 @app.route('/keepass')
 def keepass():
     return render_template("keepass.html")
