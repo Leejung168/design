@@ -39,10 +39,31 @@ def customer():
 def home():
     return render_template("index.html")
 
+
 # Customer--->Servers Page
-@app.route('/server')
-def server():
-    return render_template("server.html")
+@app.route('/servers')
+def servers():
+    well = []
+    name = request.args.get("name")
+    try:
+        ownerid = session.query(CustomerGroup).filter_by(name=name).one().id
+        servers = session.query(ServerGroup).filter_by(ownerid=ownerid).all()
+        for s in servers:
+            single = {
+                "sname": s.sname,
+                "sip": s.sip,
+                "sport": s.sport
+            }
+            well.append(single)
+            single = {}
+    except:
+        single = {
+            "sname": "query-database-error",
+            "sip": "0.0.0.0",
+            "sip": "0"
+        }
+        well.append(single)
+    return render_template("server.html", servers=well)
 
 
 @app.route('/keepass')

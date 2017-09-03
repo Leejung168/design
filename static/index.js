@@ -28,6 +28,19 @@ $("#customer_group").click(function(){
 
 function customer(obj){
     var name = $(obj).attr("id");
-    $('#page-wrapper').load('server');
-    console.log(name);
+    $('#page-wrapper').load('servers?name=' + name);
+//    $.ajax({
+//    url: "/servers",
+//    type: "post",
+//    dataType: "json",
+//    data: {
+//        "name": name,
+//    },
+//    complete: function(msg){
+//        var servers = msg["responseJSON"];
+//        $('#page-wrapper').load('servers', servers);
+//        console.log(servers)
+//    }
+//  })
+//    $('#page-wrapper').load('servers');
 }
