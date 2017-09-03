@@ -44,6 +44,7 @@ def home():
 @app.route('/servers')
 def servers():
     well = []
+    # Obtain customer name from request header.
     name = request.args.get("name")
     try:
         ownerid = session.query(CustomerGroup).filter_by(name=name).one().id
@@ -64,6 +65,28 @@ def servers():
         }
         well.append(single)
     return render_template("server.html", servers=well)
+
+
+# Customer--->Servers--->Server Info Detailed Page
+@app.route('/s_detailed')
+def s_detailed():
+    # Obtain server name from the request header;
+    server = request.args.get("server")
+    try:
+        info = session.query(ServerGroup).filter_by(sname=server).one()
+        single = {
+            "sname": info.sname,
+            "sip": info.sip,
+            "sport": info.sport
+        }
+    except:
+        single = {
+            "sname": "query-database-error",
+            "sip": "0.0.0.0",
+            "sip": "0"
+        }
+
+    return render_template("detailed_info.html", info=single)
 
 
 @app.route('/keepass')

@@ -267,9 +267,9 @@
                             </div> -->
                             <!-- /input-group -->
                         <!-- </li> -->
-                        <li>
-                            <a id="keepass" href="#"><i class="fa fa-eye fa-fw"></i> Keepass</a>
-                        </li>
+                        <!--<li>-->
+                            <!--<a id="keepass" href="#"><i class="fa fa-eye fa-fw"></i> Keepass</a>-->
+                        <!--</li>-->
                         <li>
                             <a href="#" id="customer_group"><i class="fa fa-sitemap fa-fw"></i>Customer-Group<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level" id="customer">
@@ -286,7 +286,156 @@
         </nav>
 
         <div id="page-wrapper">
-            
+            <!--Dashboard start-->
+            <div class="row">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+            <!--Search Keepass-->
+            <div class="col-md-6 col-md-offset-3">
+                <div class="row">
+                    <div id="logo" class="text-center" >
+                        <h1 style="color:blue;">ChinaNetCloud</h1><p>Keepass Search For Ops</p>
+                   </div>
+                   <form role="form" id="form-buscar" action="">
+                       <div class="form-group">
+                          <div class="input-group">
+                              <input id="1" class="form-control" type="text" name="search" placeholder="srv-nc-bj-nat1 [username]" required/>
+                              <span class="input-group-btn">
+                                  <button class="btn btn-success" type="submit">
+                                     <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search
+                                  </button>
+                              </span>
+                          </div>
+                       </div>
+                    </form>
+                </div>
+            </div>
+            <!--Result Start-->
+            <div class="row">
+                 <div class="col-lg-12">
+                        <br>
+                     <h4 class="page-header"></h4>
+                        <!-- <button class="btn btn-default btn-lg btn-block"></button> -->
+                 </div>
+                    <!--  left bottom -->
+                    <div class="col-lg-6 col-md-offset-3">
+                        <div class="">
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">root</td>
+                                                <td>9Y20VNEO70B3</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">ncadmin</td>
+                                                <td>3SPX596Q65XQQAUQVT16</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">GPG_KEY</td>
+                                                <td>AHFYHZDRGHVZFPC72MOYP0USF8JU09L9</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">mysql-ncdba</td>
+                                                <td>ZFPC72MOYP0</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">mysql-root</td>
+                                                <td>2MOYP0USF8JU</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">mysql-ncbackupdb</td>
+                                                <td>-</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="text-right">mysql-nccheckup</td>
+                                                <td>ZDRGHVZFPC72</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  Right bottom -->
+                    <!--<div class="col-lg-6">-->
+                        <!--<div class="">-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="table-responsive">-->
+                                    <!--<table class="table table-borderless">-->
+                                        <!--<tbody>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">操作系统</td>-->
+                                                <!--<td>CentOS 6.9</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+
+                                                <!--<td class="text-right">公有 IP</td>-->
+                                                <!--<td>-</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">映射 IP</td>-->
+                                                <!--<td>10.1.124.100</td>-->
+                                            <!--</tr>-->
+
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">平台</td>-->
+                                                <!--<td>AWS</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">拥有者</td>-->
+                                                <!--<td>ChinaNetCloud</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">安装软件</td>-->
+                                                <!--<td>Nginx-1.6, Mysql-5.7, Java-1.7, Tomcat-8.0, PHP-5.6</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">启动时间</td>-->
+                                                <!--<td>2016年3月15日 UTC+8上午11:14:45 (12821 小时)</td>-->
+                                            <!--</tr>-->
+
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">状态转换原因消息</td>-->
+                                                <!--<td>-</td>-->
+                                            <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+            </div>
+            <!--Result End-->
+            <!--Search End-->
+
+
+            </div>
+            <!--Dashboard End-->
         </div>
         <!-- /#page-wrapper -->
 

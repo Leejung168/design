@@ -30,8 +30,7 @@
                   <table id="mytable" class="table table-bordred table-striped table-hover">
                        
                        <thead>
-                            <!-- <th><input type="checkbox" id="checkall" /></th> -->
-                            <th>ID</th>
+                            <th><input type="radio" id="checkall" name="server" value="" /></th>
                             <th>Name</th>
                             <th>Public IP</th>
                             <th>Private IP</th>
@@ -47,7 +46,7 @@
                            {% for s in servers %}
                                 <tr>
                                     <td>
-                                        <input type="checkbox" value="">
+                                        <input type="radio" class="server_selection" onclick="server_selection(this)"  name="server" value={{ s.sname }}>
                                     </td>
                                     <td>{{ s.sname }}</td>
                                     <td>{{ s.sip }}</td>
@@ -82,105 +81,118 @@
 
 
             <!-- Detailed pages -->
-            <div class="row">
-                 <div class="col-lg-12">
-                        <br>
-                        <!-- <button class="btn btn-default btn-lg btn-block"></button> -->
-                </div>
-                    <!--  left bottom -->
-                    <div class="col-lg-6">
-                        <div class="">
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">实例 ID</td>
-                                                <td>i-ec0088d4</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">实例状态</td>
-                                                <td>running</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">实例类型</td>
-                                                <td>r3.2xlarge</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">私有 DNS</td>
-                                                <td>ip-10-5-20-10.cn-north-1.compute.internal</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">私有 IP</td>
-                                                <td>10.5.20.10</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">根设备</td>
-                                                <td>/dev/xvda</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <div class="row detailed_pages">
+                 <!--<div class="col-lg-12">-->
+                        <!--<br>-->
+                        <!--&lt;!&ndash; <button class="btn btn-default btn-lg btn-block"></button> &ndash;&gt;-->
+                <!--</div>-->
+                    <!--&lt;!&ndash;  left bottom &ndash;&gt;-->
+                    <!--<div class="col-lg-6">-->
+                        <!--<div class="">-->
+                            <!--&lt;!&ndash; /.panel-heading &ndash;&gt;-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="table-responsive">-->
+                                    <!--<table class="table">-->
+                                        <!--<tbody>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">服务器名</td>-->
+                                                <!--<td>srv-sixthtone-web1</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">内网 IP</td>-->
+                                                <!--<td>10.1.124.1</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">实例 CPU</td>-->
+                                                <!--<td>4</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">实例内存</td>-->
+                                                <!--<td>16G</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">根设备</td>-->
+                                                <!--<td>/dev/xvda</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">数据盘</td>-->
+                                                <!--<td>/dev/sdb</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">LVM状态</td>-->
+                                                <!--<td>否</td>-->
+                                            <!--</tr>-->
 
-                    <!--  Right bottom -->
-                    <div class="col-lg-6">
-                        <div class="">
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-borderless">
-                                        <tbody>
-                                            <tr>
-                                                <td></td>
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-                                                <td class="text-right">公有 IP</td>
-                                                <td>-</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">映射 IP</td>
-                                                <td>10.1.124.100</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">平台</td>
-                                                <td>AWS</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">拥有者</td>
-                                                <td>ChinaNetCloud</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">启动时间</td>
-                                                <td>2016年3月15日 UTC+8上午11:14:45 (12821 小时)</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">RAM 磁盘 ID</td>
-                                                <td>-</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td class="text-right">状态转换原因消息</td>
-                                                <td>-</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <!--&lt;!&ndash;  Right bottom &ndash;&gt;-->
+                    <!--<div class="col-lg-6">-->
+                        <!--<div class="">-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="table-responsive">-->
+                                    <!--<table class="table table-borderless">-->
+                                        <!--<tbody>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">操作系统</td>-->
+                                                <!--<td>CentOS 6.9</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+
+                                                <!--<td class="text-right">公有 IP</td>-->
+                                                <!--<td>-</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">映射 IP</td>-->
+                                                <!--<td>10.1.124.100</td>-->
+                                            <!--</tr>-->
+
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">平台</td>-->
+                                                <!--<td>AWS</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">拥有者</td>-->
+                                                <!--<td>ChinaNetCloud</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">安装软件</td>-->
+                                                <!--<td>Nginx-1.6, Mysql-5.7, Java-1.7, Tomcat-8.0, PHP-5.6</td>-->
+                                            <!--</tr>-->
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">启动时间</td>-->
+                                                <!--<td>2016年3月15日 UTC+8上午11:14:45 (12821 小时)</td>-->
+                                            <!--</tr>-->
+
+                                            <!--<tr>-->
+                                                <!--<td></td>-->
+                                                <!--<td class="text-right">状态转换原因消息</td>-->
+                                                <!--<td>-</td>-->
+                                            <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
             </div>
         </div>
 

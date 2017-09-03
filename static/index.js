@@ -29,18 +29,11 @@ $("#customer_group").click(function(){
 function customer(obj){
     var name = $(obj).attr("id");
     $('#page-wrapper').load('servers?name=' + name);
-//    $.ajax({
-//    url: "/servers",
-//    type: "post",
-//    dataType: "json",
-//    data: {
-//        "name": name,
-//    },
-//    complete: function(msg){
-//        var servers = msg["responseJSON"];
-//        $('#page-wrapper').load('servers', servers);
-//        console.log(servers)
-//    }
-//  })
-//    $('#page-wrapper').load('servers');
+}
+
+
+function server_selection(obj){
+    var server_name = $(obj).val();
+    console.log(server_name);
+    $('.detailed_pages').load("s_detailed?server=" + server_name);
 }
