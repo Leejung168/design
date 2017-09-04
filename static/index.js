@@ -1,3 +1,18 @@
+$(".searchbutton").click(function(){
+    var keywords = $('#inputbutton').val();
+    $('.pwresult').load('pw?sname=' + keywords);
+})
+
+$('#inputbutton').keydown(function (e){
+    if(e.keyCode == 13){
+        var keywords = $('#inputbutton').val();
+        console.log(keywords);
+        $('.pwresult').load('pw?sname=' + keywords);
+    }
+})
+
+
+
 //Will list customer names.
 $("#customer_group").click(function(){
     if($(this).hasClass("panelisopen")){
