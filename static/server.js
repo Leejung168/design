@@ -10,7 +10,6 @@ $(document).ready(function () {
       e.preventDefault();
       var $target = $($(this).attr('href')),
               $item = $(this);
-
       if (!$item.hasClass('disabled')) {
           navListItems.removeClass('btn-primary').addClass('btn-default');
           $item.addClass('btn-primary');
@@ -18,14 +17,16 @@ $(document).ready(function () {
           $target.show();
           $target.find('input:eq(0)').focus();
       }
+
   });
 
   allNextBtn.click(function(){
       var curStep = $(this).closest(".setup-content"),
           curStepBtn = curStep.attr("id"),
           nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          curInputs = curStep.find("input[type='text'],input[type='password']"),
           isValid = true;
+
 
       $(".form-group").removeClass("has-error");
       for(var i=0; i<curInputs.length; i++){
@@ -35,9 +36,22 @@ $(document).ready(function () {
           }
       }
 
-      if (isValid)
+      if (isValid){
+          if (nextStepWizard.attr("href") == "#step-3"){
+              console.log($('input[name="services"]:checked').serialize());
+              $(".haproxy").remove();
+              $(".nginx").remove();
+
+          }
           nextStepWizard.removeAttr('disabled').trigger('click');
+       }
+
   });
 
   $('div.setup-panel div a.btn-primary').trigger('click');
+
+
+
+
 });
+

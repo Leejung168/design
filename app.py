@@ -140,7 +140,7 @@ def pw():
 @app.route('/plus', methods=["POST"])
 def plus():
     print request.form
-    return 0
+    return render_template("index.html")
 
 
 

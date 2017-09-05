@@ -93,7 +93,7 @@
                 <div class="stepwizard-row setup-panel modal-header">
                   <div class="stepwizard-step">
                     <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-                    <p>OS-Info</p>
+                    <p>OSInfo</p>
                   </div>
                   <div class="stepwizard-step">
                     <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
@@ -113,73 +113,73 @@
                       <h4>系统信息</h4>
                       <div class="form-group col-md-6">
                         <label class="control-label">服务器名 name</label>
-                        <input  maxlength="100" type="text" required="required" class="form-control" placeholder="srv-nc-prod-web1"  />
+                        <input  maxlength="100" type="text" required="required" name="server_name" class="form-control" placeholder="srv-nc-prod-web1"  />
                       </div>
 
                       <div class="form-group col-md-6">
                         <label class="control-label">用户组 Group</label>
-                        <input  maxlength="100" type="text" required="required" class="form-control" placeholder="srv-nc-prod-web1"  />
+                        <input  maxlength="100" type="text" required="required" name="server_group" class="form-control" placeholder="srv-nc-prod-web1"  />
                       </div>
 
                       <div class="form-group col-md-8">
                          <label class="control-label">登陆 IP</label>
-                         <input maxlength="50" type="text" required="required" class="form-control" placeholder="114.114.114.114" />
+                         <input maxlength="50" type="text" required="required" name="server_ip" class="form-control" placeholder="114.114.114.114" />
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">端口 Port</label>
-                          <input maxlength="50" type="text" required="required" class="form-control" placeholder="40022" />
+                          <input maxlength="50" type="text" required="required" name="server_port" class="form-control" placeholder="40022" />
                       </div>
 
                       <div class="form-group col-md-6">
                         <label class="control-label">用户 UserName</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="root" />
+                        <input maxlength="100" type="text" required="required" name="server_username" class="form-control" placeholder="root" />
                       </div>
 
                       <div class="form-group col-md-6">
                         <label class="control-label">密码 Password</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter SSH Password" />
+                        <input maxlength="100" type="password" required="required" name="server_password" class="form-control" placeholder="Enter SSH Password" />
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">平台 Platform</label>
-                          <select class="form-control">
-                              <option>AWS</option>
-                              <option selected>AliYun</option>
-                              <option>IDC</option>
+                          <select name="server_platform" class="form-control">
+                              <option value="aws">AWS</option>
+                              <option value="aliyun" selected>AliYun</option>
+                              <option value="idc">IDC</option>
                           </select>
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">系统 Choose</label>
-                          <select class="form-control">
-                              <option selected>CentOS 6</option>
-                              <option>CentOS 7</option>
-                              <option>Ubuntu UTS 16</option>
-                              <option>Amazon Linux</option>
+                          <select name="server_system" class="form-control">
+                              <option value="centos6" selected>CentOS 6</option>
+                              <option value="centos7">CentOS 7</option>
+                              <option value="ubuntu16">Ubuntu UTS 16</option>
+                              <option value="amazonlinux">Amazon Linux</option>
                           </select>
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">功能 Function</label>
-                          <select class="form-control">
-                              <option>NAT</option>
-                              <option>LB</option>
-                              <option selected>Web</option>
-                              <option>DB</option>
+                          <select name="server_function" class="form-control">
+                              <option value="nat">NAT</option>
+                              <option value="lb">LB</option>
+                              <option value="web" selected>Web</option>
+                              <option value="db">DB</option>
                           </select>
                       </div>
 
                       <div class="form-group col-md-8">
                         <label class="control-label">数据盘 DataDisk</label>
-                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="/dev/xvdb" />
+                        <input maxlength="100" type="text" required="required" name="server_disk" class="form-control" placeholder="/dev/xvdb" />
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">选择 LVM</label>
-                          <select class="form-control">
-                              <option>Yes</option>
-                              <option selected>No</option>
+                          <select name="server_lvm" class="form-control">
+                              <option value="yes">Yes</option>
+                              <option value="no" selected>No</option>
                           </select>
                       </div>
 
@@ -189,46 +189,45 @@
                   </div>
                 </div>
 
-
                 <div class="row setup-content" id="step-2">
                   <div class="col-xs-6 col-md-offset-3">
                       <div class="form-group col-md-12">
-                            <h3>服务 Choose</h3>
+                            <h3>服务 选择</h3>
                       </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox"> Haproxy
+                           <input type="checkbox" name="services" value="haproxy"> Haproxy
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox"> Apache
+                           <input type="checkbox" name="services" value="apache"> Apache
                       </div>
                       <div class="row"></div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox"> Nginx
+                           <input type="checkbox" name="services" value="nginx"> Nginx
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox"> Mysql
+                           <input type="checkbox" name="services" value="mysql"> Mysql
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox"> Tomcat
+                           <input type="checkbox" name="services" value="tomcat"> Tomcat
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox"> Mongo
+                           <input type="checkbox" name="services" value="mongo"> Mongo
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox"> PHP
+                           <input type="checkbox" name="services" value="php"> PHP
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox"> Zookeeper
+                           <input type="checkbox" name="services" value="zookeeper"> Zookeeper
                       </div>
                       <div class="row"> </div>
 
@@ -237,8 +236,6 @@
                       </div>
                   </div>
                 </div>
-
-
 
                 <div class="row setup-content" id="step-3">
 
@@ -247,18 +244,18 @@
                           <h4>Haproxy</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
-                              <select class="form-control">
-                                  <option>1.5</option>
-                                  <option selected>Latest</option>
+                              <select name="haproxy_version" class="form-control">
+                                  <option value="1.5">1.5</option>
+                                  <option value="latest" selected>Latest</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">监听 Listen</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="80" value="80"/>
+                              <input maxlength="50" type="text" name="haproxy_listen" required="required" class="form-control" placeholder="80" value="80"/>
                           </div>
                           <div class="form-group col-md-12">
                               <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                              <textarea maxlength="50" type="text" name="haproxy_backends" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
                           </div>
 
                       </div>
@@ -270,32 +267,32 @@
                           <h4>Nginx</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
-                              <select class="form-control">
-                                  <option>1.6</option>
-                                  <option selected>Latest</option>
+                              <select name="nginx_version" class="form-control">
+                                  <option value="1.6">1.6</option>
+                                  <option value="latest" selected>Latest</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">域名 Domain</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="80" value="www.example.com"/>
+                              <input maxlength="50" type="text" required="required" name="nginxdomain" class="form-control" placeholder="www.example.com" value=""/>
                           </div>
 
                           <div class="form-group col-md-4">
                               <label class="control-label">选择 HTTPS</label>
-                              <select class="form-control">
-                                  <option>Yes</option>
-                                  <option selected>No</option>
+                              <select name="nginx_ssl" class="form-control">
+                                  <option value="yes">Yes</option>
+                                  <option value="no" selected>No</option>
                               </select>
                           </div>
 
                           <div class="form-group col-md-8">
                               <label class="control-label">根目录 Root</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
+                              <input maxlength="50" name="nginx_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
                           </div>
 
                           <div class="form-group col-md-12">
                               <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                              <textarea maxlength="50" name="nginx_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
                           </div>
                       </div>
 
@@ -304,33 +301,33 @@
                           <h4>Apache</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
-                              <select class="form-control">
-                                  <option>2.2</option>
-                                  <option selected>2.4</option>
-                                  <option>Latest</option>
+                              <select name="apache_version" class="form-control">
+                                  <option value="2.2">2.2</option>
+                                  <option value="2.4" selected>2.4</option>
+                                  <option value="latest">Latest</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">域名 Domain</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="80" value="www.example.com"/>
+                              <input maxlength="50" name="apache_domain" type="text" required="required" class="form-control" placeholder="www.example.com" value=""/>
                           </div>
 
                           <div class="form-group col-md-4">
                               <label class="control-label">选择 HTTPS</label>
-                              <select class="form-control">
-                                  <option>Yes</option>
-                                  <option selected>No</option>
+                              <select name="apache_ssl" class="form-control">
+                                  <option value="yes">Yes</option>
+                                  <option value="no" selected>No</option>
                               </select>
                           </div>
 
                           <div class="form-group col-md-8">
                               <label class="control-label">根目录 Root</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
+                              <input maxlength="50" name="apache_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
                           </div>
 
                           <div class="form-group col-md-12">
                               <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                              <textarea maxlength="50" name="apache_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
                           </div>
                       </div>
 
@@ -339,38 +336,38 @@
                           <h4>Mysql</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
-                              <select class="form-control">
-                                  <option selected>5.6</option>
-                                  <option>5.7</option>
+                              <select name="mysql_version" class="form-control">
+                                  <option value="5.6" selected>5.6</option>
+                                  <option value="5.7">5.7</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">引擎 Engine</label>
-                              <select class="form-control">
-                                  <option selected>Innodb</option>
-                                  <option>Mixed</option>
+                              <select name="mysql_engine" class="form-control">
+                                  <option value="innodb" selected>Innodb</option>
+                                  <option value="mixed">Mixed</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">类型 Type</label>
-                              <select class="form-control">
-                                  <option selected>Master</option>
-                                  <option>Slave</option>
-                                  <option>Normal</option>
+                              <select name="mysql_type" class="form-control">
+                                  <option value="master" selected>Master</option>
+                                  <option value="slave">Slave</option>
+                                  <option value="normal">Normal</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
-                              <label class="control-label">InnoDB Buffer Size(G)</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="75% of Phy Mem" value=""/>
+                              <label class="control-label">InnodbBufferSize(G)</label>
+                              <input maxlength="50" type="text" name="mysql_buffersize" required="required" class="form-control" placeholder="75% of Phy Mem" value=""/>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">数据目录 DataDir</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/var/lib/mysql/data"/>
+                              <input maxlength="50" type="text" name="mysql_datadir" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/var/lib/mysql/data"/>
                           </div>
 
                           <div class="form-group col-md-4">
                               <label class="control-label">MaxConnection</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="4096" value="4096"/>
+                              <input maxlength="50" type="text" name="mysql_maxconn" required="required" class="form-control" placeholder="4096" value="4096"/>
                           </div>
 
                       </div>
@@ -380,36 +377,36 @@
                           <h4>tomcat</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
-                              <select class="form-control">
-                                  <option selected>7.0+</option>
-                                  <option>8.0+</option>
-                                  <option>Latest</option>
+                              <select name="tomcat_version" class="form-control">
+                                  <option value="7" selected>7.0+</option>
+                                  <option value="8">8.0+</option>
+                                  <option value="latest">Latest</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">Java Version</label>
-                              <select class="form-control">
-                                  <option selected>1.7+</option>
-                                  <option>1.8+</option>
-                                  <option>Latest</option>
+                              <select name="java_version" class="form-control">
+                                  <option value="1.7" selected>1.7+</option>
+                                  <option value="1.8">1.8+</option>
+                                  <option value="latest">Latest</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">安装目录 Dir</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/opt"/>
+                              <input maxlength="50" type="text" name="tomcat_root" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/opt"/>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">安装名 Name</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="tomcat" value="tomcat"/>
+                              <input maxlength="50" type="text" name="tomcat_name" required="required" class="form-control" placeholder="tomcat" value="tomcat"/>
                           </div>
 
                           <div class="form-group col-md-4">
                               <label class="control-label">Heap Memory(G)</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="2G" value="2G"/>
+                              <input maxlength="50" type="text" name="tomcat_heapmemory" required="required" class="form-control" placeholder="2G" value="2G"/>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">JMX Port(G)</label>
-                              <input maxlength="50" type="text" required="required" class="form-control" placeholder="6379" value="6379"/>
+                              <input maxlength="50" type="text" name="tomcat_jmxport" required="required" class="form-control" placeholder="6379" value="6379"/>
                           </div>
 
                       </div>
