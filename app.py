@@ -136,6 +136,12 @@ def pw():
 
     return render_template("pw_info.html", pw=info)
 
+# Obtain Plus info
+@app.route('/plus', methods=["POST"])
+def plus():
+    print request.form
+    return 0
+
 
 
 if __name__ == '__main__':
