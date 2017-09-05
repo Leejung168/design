@@ -1,37 +1,43 @@
-//Will list customer names.
-$("#customer_group").click(function(){
-    if($(this).hasClass("panelisopen")){
-        console.log("Already loaded!");
-    } else {
-        var cg = $(this);
-        $.ajax({
-            url: "/customer",
-            type: "post",
-            dataType: "json",
-            data: {
-                "iid": 1,
-            },
-            complete: function(msg){
-                var customer = msg["responseJSON"];
-                $.each(customer, function(key, value){
-                    $("#customer").append(
-                        '<li><a id=' + value + ' ' + 'href="#' + value + '"><i class="fa fa-heart fa-fw"></i>' + value + '</a></li>'
-                    );
-                    cg.addClass("panelisopen");
-                    }
-                )
-           }
-        })
-        }
+//Plus Dialog needs
+$(document).ready(function () {
+  var navListItems = $('div.setup-panel div a'),
+          allWells = $('.setup-content'),
+          allNextBtn = $('.nextBtn');
+
+  allWells.hide();
+
+  navListItems.click(function (e) {
+      e.preventDefault();
+      var $target = $($(this).attr('href')),
+              $item = $(this);
+
+      if (!$item.hasClass('disabled')) {
+          navListItems.removeClass('btn-primary').addClass('btn-default');
+          $item.addClass('btn-primary');
+          allWells.hide();
+          $target.show();
+          $target.find('input:eq(0)').focus();
+      }
   });
 
+  allNextBtn.click(function(){
+      var curStep = $(this).closest(".setup-content"),
+          curStepBtn = curStep.attr("id"),
+          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+          curInputs = curStep.find("input[type='text'],input[type='url']"),
+          isValid = true;
 
+      $(".form-group").removeClass("has-error");
+      for(var i=0; i<curInputs.length; i++){
+          if (!curInputs[i].validity.valid){
+              isValid = false;
+              $(curInputs[i]).closest(".form-group").addClass("has-error");
+          }
+      }
 
-$("#chinanetcloud").click(function(){
-  $('#page-wrapper').load('server');
-})
+      if (isValid)
+          nextStepWizard.removeAttr('disabled').trigger('click');
+  });
 
-
-$("#keepass").click(function(){
-  $('#page-wrapper').load('keepass');
-})
+  $('div.setup-panel div a.btn-primary').trigger('click');
+});

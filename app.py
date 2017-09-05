@@ -123,7 +123,6 @@ def pw():
             "ncdba": decrypt(passwd.ncdba)
         }
 
-        print info
     except Exception as e:
         print e
         info = {
