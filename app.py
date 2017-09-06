@@ -136,9 +136,16 @@ def pw():
 
     return render_template("pw_info.html", pw=info)
 
+
 # Obtain Plus info
-@app.route('/plus', methods=["POST"])
-def plus():
+@app.route('/plus_server', methods=["POST"])
+def plus_server():
+    print request.form
+    return render_template("index.html")
+
+
+@app.route('/plus_customer', methods=["POST"])
+def plus_customer():
     print request.form
     return render_template("index.html")
 
