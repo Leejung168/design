@@ -24,7 +24,7 @@ def generate_passwd(length):
     return ''.join(passwd)
 
 #Setup DB session
-engine = create_engine('mysql://root:lambert@127.0.0.1:3306/customergroup')
+engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()

@@ -13,6 +13,10 @@ class CustomerGroup(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(16), nullable=False)
+    contact1 = Column(String(16), nullable=False)
+    phone1 = Column(String(16), nullable=False)
+    contact2 = Column(String(16), nullable=False)
+    phone2 = Column(String(16), nullable=False)
 
 #Server asset information
 class ServerGroup(Base):
@@ -43,6 +47,6 @@ class PasswordGroup(Base):
 
 
 
-engine = create_engine('mysql://root:lambert@127.0.0.1:3306/customergroup')
+engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
 
 Base.metadata.create_all(engine)

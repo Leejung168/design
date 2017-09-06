@@ -42,6 +42,7 @@ $("#customer_group").click(function(){
 
 
 function customer(obj){
+   // Get name when choose customer
     var name = $(obj).attr("id");
     $('#page-wrapper').load('servers?name=' + name);
 }
@@ -49,6 +50,5 @@ function customer(obj){
 
 function server_selection(obj){
     var server_name = $(obj).val();
-    console.log(server_name);
     $('.detailed_pages').load("s_detailed?server=" + server_name);
 }

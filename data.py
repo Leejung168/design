@@ -13,13 +13,13 @@ def generate_passwd(length):
     return ''.join(passwd)
 
 #Setup DB session
-engine = create_engine('mysql://root:lambert@127.0.0.1:3306/customergroup')
+engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 for i in ["ChinaNetCloud","Lambert","SixthTone","YiJieDai","King","DayDayCook"]:
-    customer=CustomerGroup(name=i)
+    customer=CustomerGroup(name=i, contact1="CEO", phone1="18535679086", contact2="CFO", phone2="13839807889")
     session.add(customer)
     session.commit()
 

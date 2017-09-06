@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 
 # Create Database session
-engine = create_engine('mysql://root:lambert@127.0.0.1:3306/customergroup')
+engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
@@ -61,6 +61,7 @@ def home():
 # Customer--->Servers Page
 @app.route('/servers')
 def servers():
+    whole = {}
     well = []
     # Obtain customer name from request header.
     name = request.args.get("name")
@@ -82,7 +83,13 @@ def servers():
             "sip": "0"
         }
         well.append(single)
-    return render_template("server.html", servers=well)
+
+    whole = {
+        "customer_name": name,
+        "servers": well,
+    }
+
+    return render_template("server.html", whole=whole)
 
 
 # Customer--->Servers--->Server Info Detailed Page
@@ -141,14 +148,35 @@ def pw():
 @app.route('/plus_server', methods=["POST"])
 def plus_server():
     print request.form
-    return render_template("index.html")
+    return redirect("http://localhost:5000", code=302)
 
 
 @app.route('/plus_customer', methods=["POST"])
 def plus_customer():
+    customer_name = request.form.get("customer_name")
+    contact1 = request.form.get("customer_first_contact")
+    phone1 = request.form.get("first_phone")
+    contact2 = request.form.get("customer_second_contact")
+    phone2 = request.form.get("second_phone")
+    try:
+        customer = CustomerGroup(name=customer_name, contact1=contact1, phone1=phone1, contact2=contact2, phone2=phone2)
+        session.add(customer)
+        session.commit()
+    except:
+        pass
+        #TODO
+    return redirect("http://localhost:5000", code=302)
+
+
+
+
+
+
+
+
+
     print request.form
     return render_template("index.html")
-
 
 
 if __name__ == '__main__':
