@@ -260,9 +260,6 @@
 
                       </div>
 
-
-
-
                       <div class="row nginx">
                           <h4>Nginx</h4>
                           <div class="form-group col-md-4">
@@ -295,7 +292,6 @@
                               <textarea maxlength="50" name="nginx_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
                           </div>
                       </div>
-
 
                       <div class="row apache">
                           <h4>Apache</h4>
@@ -331,7 +327,6 @@
                           </div>
                       </div>
 
-
                       <div class="row mysql">
                           <h4>Mysql</h4>
                           <div class="form-group col-md-4">
@@ -356,11 +351,11 @@
                                   <option value="normal">Normal</option>
                               </select>
                           </div>
-                          <div class="form-group col-md-4">
+                          <div class="form-group col-md-5">
                               <label class="control-label">InnodbBufferSize(G)</label>
                               <input maxlength="50" type="text" name="mysql_buffersize" required="required" class="form-control" placeholder="75% of Phy Mem" value=""/>
                           </div>
-                          <div class="form-group col-md-4">
+                          <div class="form-group col-md-7">
                               <label class="control-label">数据目录 DataDir</label>
                               <input maxlength="50" type="text" name="mysql_datadir" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/var/lib/mysql/data"/>
                           </div>
@@ -370,11 +365,18 @@
                               <input maxlength="50" type="text" name="mysql_maxconn" required="required" class="form-control" placeholder="4096" value="4096"/>
                           </div>
 
+                          <div class="form-group col-md-4">
+                              <label class="control-label">是否 Backup</label>
+                              <select name="mysql_backup" class="form-control">
+                                  <option value="yes" selected>Yes</option>
+                                  <option value="no">No</option>
+                              </select>
+                          </div>
+
                       </div>
 
-
                       <div class="row tomcat">
-                          <h4>tomcat</h4>
+                          <h4>Tomcat</h4>
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
                               <select name="tomcat_version" class="form-control">
@@ -409,6 +411,63 @@
                               <input maxlength="50" type="text" name="tomcat_jmxport" required="required" class="form-control" placeholder="6379" value="6379"/>
                           </div>
 
+                      </div>
+
+                      <div class="row backup">
+                          <h4>Backup</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">目的地 Destination</label>
+                              <select name="backup_destination" class="form-control">
+                                  <option value="s3" selected>S3</option>
+                                  <option value="oss">OSS</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input maxlength="50" type="text" name="backup_accessid" required="required" class="form-control" placeholder="Access_ID" value=""/>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input maxlength="50" type="password" name="backup_accesskey" required="required" class="form-control" placeholder="Access_Key" value=""/>
+                          </div>
+
+                          <div class="form-group col-md-12">
+                                  <label class="control-label">备份目录 Folder</label>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder1" required="required" class="form-control" placeholder="/etc" value="/etc" readonly/>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder2" required="required" class="form-control" placeholder="/var/spool/cron" value="/var/spool/cron" readonly/>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder3" required="required" class="form-control" placeholder="/opt/ncscripts" value="/opt/ncscripts" readonly/>
+                          </div>
+
+                           <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder4" required="required" class="form-control" placeholder="backup folder" value="-"/>
+                          </div>
+
+                           <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder5" required="required" class="form-control" placeholder="backup folder" value="-"/>
+                          </div>
+
+                      </div>
+
+                      <div class="row zabbix">
+                          <h4>Zabbix</h4>
+                          <div class="form-group col-md-8">
+                              <label class="control-label">选择 Proxy</label>
+                              <select name="zabbix_proxy" class="form-control">
+                                  <option value="srv-nc-bj-zabbixproxy1" selected>srv-nc-bj-zabbixproxy1</option>
+                                  <option value="srv-nc-hz-zabbixproxy1">srv-nc-hz-zabbixproxy1</option>
+                                  <option value="srv-nc-jp-zabbixproxy1">srv-nc-jp-zabbixproxy1</option>
+                                  <option value="srv-nc-oregon-zabbixproxy1">srv-nc-oregon-zabbixproxy1</option>
+                                  <option value="srv-nc-sg-zabbixproxy1">srv-nc-sg-zabbixproxy1</option>
+                                  <option value="srv-nc-sh-aliyun-zabbixproxy1">srv-nc-sh-aliyun-zabbixproxy1</option>
+                              </select>
+                          </div>
                       </div>
 
 

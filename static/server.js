@@ -38,11 +38,25 @@ $(document).ready(function () {
 
       if (isValid){
           if (nextStepWizard.attr("href") == "#step-3"){
-              console.log($('input[name="services"]:checked').serialize());
-              $(".haproxy").remove();
-              $(".nginx").remove();
+              var services = $('input[name="services"]:checked').serialize().split("&");
+              var res = []
+              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"]
+              $.each(services, function(index, value){
+                 res.push(value.split("=")[1])
+               }
+              )
 
+              for (i in res){
+                  support.splice($.inArray(res[i], support), 1);
+              }
+
+
+              for (i in support){
+                  var service = "." + support[i];
+                  $(service).remove();
+              }
           }
+
           nextStepWizard.removeAttr('disabled').trigger('click');
        }
 
