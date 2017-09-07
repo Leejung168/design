@@ -17,7 +17,6 @@ $(document).ready(function () {
           $target.show();
           $target.find('input:eq(0)').focus();
       }
-
   });
 
   allNextBtn.click(function(){
@@ -38,11 +37,12 @@ $(document).ready(function () {
 
       if (isValid){
           if (nextStepWizard.attr("href") == "#step-3"){
-              var services = $('input[name="services"]:checked').serialize().split("&");
-              var res = []
-              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"]
+//            var services = $('input[name="services"]:checked').serialize().split("&");
+              var services = $('input[type="checkbox"]:checked').serialize().split("&");
+              var res = [];
+              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"];
               $.each(services, function(index, value){
-                 res.push(value.split("=")[1])
+                 res.push(value.split("=")[1]);
                }
               )
 
@@ -50,7 +50,7 @@ $(document).ready(function () {
                   support.splice($.inArray(res[i], support), 1);
               }
 
-
+//             TODO: when user wants to come back step2, it doesn't work
               for (i in support){
                   var service = "." + support[i];
                   $(service).remove();

@@ -112,7 +112,7 @@
                       <h4>系统信息</h4>
                       <div class="form-group col-md-6">
                         <label class="control-label">服务器名 name</label>
-                        <input  maxlength="100" type="text" required="required" name="server_name" class="form-control" placeholder="srv-nc-prod-web1"  />
+                        <input  maxlength="100" type="text" required="required" name="server_name" class="form-control" placeholder="srv-nc-prod-web1"  value="srv-nc-prod-web1" />
                       </div>
 
                       <div class="form-group col-md-6">
@@ -122,22 +122,22 @@
 
                       <div class="form-group col-md-8">
                          <label class="control-label">登陆 IP</label>
-                         <input maxlength="50" type="text" required="required" name="server_ip" class="form-control" placeholder="114.114.114.114" />
+                         <input maxlength="50" type="text" required="required" name="server_ip" class="form-control" placeholder="114.114.114.114" value="114.114.114.114" />
                       </div>
 
                       <div class="form-group col-md-4">z
                           <label class="control-label">端口 Port</label>
-                          <input maxlength="50" type="text" required="required" name="server_port" class="form-control" placeholder="40022" />
+                          <input maxlength="50" type="text" required="required" name="server_port" class="form-control" placeholder="40022" value="40022" />
                       </div>
 
                       <div class="form-group col-md-6">
                         <label class="control-label">用户 UserName</label>
-                        <input maxlength="100" type="text" required="required" name="server_username" class="form-control" placeholder="root" />
+                        <input maxlength="100" type="text" required="required" name="server_username" class="form-control" placeholder="root" value="root" />
                       </div>
 
                       <div class="form-group col-md-6">
                         <label class="control-label">密码 Password</label>
-                        <input maxlength="100" type="password" required="required" name="server_password" class="form-control" placeholder="Enter SSH Password" />
+                        <input maxlength="100" type="password" required="required" name="server_password" class="form-control" placeholder="Enter SSH Password" value="lambert" />
                       </div>
 
                       <div class="form-group col-md-4">
@@ -171,7 +171,7 @@
 
                       <div class="form-group col-md-8">
                         <label class="control-label">数据盘 DataDisk</label>
-                        <input maxlength="100" type="text" required="required" name="server_disk" class="form-control" placeholder="/dev/xvdb" />
+                        <input maxlength="100" type="text" required="required" name="server_disk" class="form-control" placeholder="/dev/xvdb" value="/dev/xvdb" />
                       </div>
 
                       <div class="form-group col-md-4">
@@ -195,39 +195,36 @@
                       </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="services" value="haproxy"> Haproxy
+                           <input type="checkbox" name="haproxy" value="haproxy"> Haproxy
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="services" value="apache"> Apache
+                           <input type="checkbox" name="apache" value="apache"> Apache
                       </div>
                       <div class="row"></div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="services" value="nginx"> Nginx
+                           <input type="checkbox" name="nginx" value="nginx"> Nginx
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="services" value="mysql"> Mysql
+                           <input type="checkbox" name="mysql" value="mysql"> Mysql
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="services" value="tomcat"> Tomcat
+                           <input type="checkbox" name="tomcat" value="tomcat"> Tomcat
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="services" value="mongo"> Mongo
+                           <input type="checkbox" name="mongo" value="mongo"> Mongo
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="services" value="php"> PHP
+                           <input type="checkbox" name="php" value="php"> PHP
                       </div>
 
-                      <div class="form-group col-md-4">
-                           <input type="checkbox" name="services" value="zookeeper"> Zookeeper
-                      </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-12">
@@ -270,7 +267,7 @@
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">域名 Domain</label>
-                              <input maxlength="50" type="text" required="required" name="nginxdomain" class="form-control" placeholder="www.example.com" value=""/>
+                              <input maxlength="50" type="text" required="required" name="nginxdomain" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
                           </div>
 
                           <div class="form-group col-md-4">
@@ -304,7 +301,7 @@
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">域名 Domain</label>
-                              <input maxlength="50" name="apache_domain" type="text" required="required" class="form-control" placeholder="www.example.com" value=""/>
+                              <input maxlength="50" name="apache_domain" type="text" required="required" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
                           </div>
 
                           <div class="form-group col-md-4">
@@ -352,7 +349,7 @@
                           </div>
                           <div class="form-group col-md-5">
                               <label class="control-label">InnodbBufferSize(G)</label>
-                              <input maxlength="50" type="text" name="mysql_buffersize" required="required" class="form-control" placeholder="75% of Phy Mem" value=""/>
+                              <input maxlength="50" type="text" name="mysql_buffersize" required="required" class="form-control" placeholder="75% of Phy Mem" value="75"/>
                           </div>
                           <div class="form-group col-md-7">
                               <label class="control-label">数据目录 DataDir</label>
@@ -423,10 +420,10 @@
                               </select>
                           </div>
                           <div class="form-group col-md-8">
-                              <input maxlength="50" type="text" name="backup_accessid" required="required" class="form-control" placeholder="Access_ID" value=""/>
+                              <input maxlength="50" type="text" name="backup_accessid" required="required" class="form-control" placeholder="Access_ID" value="Access_ID"/>
                           </div>
                           <div class="form-group col-md-8">
-                              <input maxlength="50" type="password" name="backup_accesskey" required="required" class="form-control" placeholder="Access_Key" value=""/>
+                              <input maxlength="50" type="password" name="backup_accesskey" required="required" class="form-control" placeholder="Access_Key" value="Access_Key"/>
                           </div>
 
                           <div class="form-group col-md-12">

@@ -9,6 +9,8 @@ from models import Base, CustomerGroup, ServerGroup, PasswordGroup
 from Crypto.Cipher import XOR
 import base64
 
+import json
+
 app = Flask(__name__)
 
 
@@ -70,7 +72,7 @@ def servers():
         servers = session.query(ServerGroup).filter_by(ownerid=ownerid).all()
         for s in servers:
             single = {
-                "sname": s.sname,
+                "sname": s.sservername,
                 "sip": s.sip,
                 "sport": s.sport
             }
@@ -98,9 +100,9 @@ def s_detailed():
     # Obtain server name from the request header;
     server = request.args.get("server")
     try:
-        info = session.query(ServerGroup).filter_by(sname=server).one()
+        info = session.query(ServerGroup).filter_by(sservername=server).one()
         single = {
-            "sname": info.sname,
+            "sname": info.sservername,
             "sip": info.sip,
             "sport": info.sport
         }
@@ -147,8 +149,51 @@ def pw():
 # Obtain Plus info
 @app.route('/plus_server', methods=["POST"])
 def plus_server():
-    print request.form
-    return redirect("http://localhost:5000", code=302)
+    data = request.form.to_dict()
+    print data
+
+    sservername = data.pop("server_name").encode("utf-8")
+    susername = data.pop("server_username").encode("utf-8")
+    spassword = data.pop("server_password").encode("utf-8")
+    sip = data.pop("server_ip").encode("utf-8")
+    sport = data.pop("server_port").encode("utf-8")
+    sfunction = data.pop("server_function").encode("utf-8")
+    slvm = data.pop("server_lvm").encode("utf-8")
+    sgroup = data.pop("server_group").encode("utf-8")
+    sdisk = data.pop("server_disk").encode("utf-8")
+    ssystem = data.pop("server_system").encode("utf-8")
+    splatform = data.pop("server_platform").encode("utf-8")
+    sservices = json.dumps(data)
+
+    try:
+        session.query(ServerGroup).filter_by(sservername=sservername).one()
+        existed = {"Status": "Error", "Reason": "Server {0} Already Existed".format(sservername)}
+        return render_template("error.html", messages=existed), 499
+    except:
+        try:
+            customer_entry = session.query(CustomerGroup).filter_by(name=sgroup).one()
+            server = ServerGroup(
+                sservername=sservername,
+                susername=susername,
+                spassword=spassword,
+                sip=sip,
+                sport=sport,
+                sfunction=sfunction,
+                slvm=slvm,
+                sgroup=sgroup,
+                sdisk=sdisk,
+                ssystem=ssystem,
+                splatform=splatform,
+                sservices=sservices,
+                owner=customer_entry
+            )
+            session.add(server)
+            session.commit()
+            return redirect("http://localhost:5000", code=302)
+        except:
+            errors = {"Status": "500", "info": "Server", "Reason": "Internal Error"}
+            return render_template("error.html", messages=errors), 500
+
 
 
 @app.route('/plus_customer', methods=["POST"])
@@ -158,25 +203,20 @@ def plus_customer():
     phone1 = request.form.get("first_phone")
     contact2 = request.form.get("customer_second_contact")
     phone2 = request.form.get("second_phone")
+    # Check if exist
     try:
-        customer = CustomerGroup(name=customer_name, contact1=contact1, phone1=phone1, contact2=contact2, phone2=phone2)
-        session.add(customer)
-        session.commit()
+        session.query(CustomerGroup).filter_by(name=customer_name).one()
+        existed = {"Status": "Error", "Reason": "{0} Already Existed".format(customer_name)}
+        return render_template("error.html", messages=existed), 499
     except:
-        pass
-        #TODO
-    return redirect("http://localhost:5000", code=302)
-
-
-
-
-
-
-
-
-
-    print request.form
-    return render_template("index.html")
+        try:
+            customer = CustomerGroup(name=customer_name, contact1=contact1, phone1=phone1, contact2=contact2, phone2=phone2)
+            session.add(customer)
+            session.commit()
+            return redirect("http://localhost:5000", code=302)
+        except:
+            errors = {"Status": "500", "info": "Customer", "Reason": "Internal Error"}
+            return render_template("error.html", messages=errors), 500
 
 
 if __name__ == '__main__':

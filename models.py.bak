@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
-# CustomerGroup
+#CustomerGroup
 class CustomerGroup(Base):
     __tablename__ = 'customer_group'
 
@@ -18,30 +18,19 @@ class CustomerGroup(Base):
     contact2 = Column(String(16), nullable=False)
     phone2 = Column(String(16), nullable=False)
 
-
-# Server asset information
+#Server asset information
 class ServerGroup(Base):
     __tablename__ = 'server_group'
 
     id = Column(Integer, primary_key=True)
-    sgroup = Column(String(32), nullable=False)
-    sservername = Column(String(32), nullable=False)
-    susername = Column(String(32), nullable=False)
+    sname = Column(String(32), nullable=False)
     spassword = Column(String(64), nullable=False)
     sip = Column(String(32), nullable=False)
     sport = Column(String(16), nullable=False)
-    sfunction = Column(String(16), nullable=False)
-    slvm = Column(String(16), nullable=False)
-    sgroup = Column(String(16), nullable=False)
-    sdisk = Column(String(16), nullable=False)
-    ssystem = Column(String(16), nullable=False)
-    splatform = Column(String(16), nullable=False)
-    sservices = Column(String(1024), nullable=False)
     ownerid = Column(Integer, ForeignKey('customer_group.id'))
     owner = relationship(CustomerGroup)
 
-
-# Password info per server.
+#Password info per server.
 class PasswordGroup(Base):
     __tablename__ = 'password_group'
 

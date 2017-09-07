@@ -19,7 +19,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 for i in ["ChinaNetCloud","Lambert","SixthTone","YiJieDai","King","DayDayCook"]:
-    customer=CustomerGroup(name=i, contact1="CEO", phone1="18535679086", contact2="CFO", phone2="13839807889")
+    customer = CustomerGroup(name=i, contact1="CEO", phone1="18535679086", contact2="CFO", phone2="13839807889")
     session.add(customer)
     session.commit()
 
