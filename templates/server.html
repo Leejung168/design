@@ -34,11 +34,10 @@
                             <th><input type="radio" id="checkall" name="server" value="" /></th>
                             <th>Name</th>
                             <th>Public IP</th>
-                            <th>Private IP</th>
                             <th>Port</th>
-                            <th>Status</th>
-                            <th>Service</th>
-                            <th>IDC</th>
+                            <th>System</th>
+                            <th>Function</th>
+                            <th>Platform</th>
                             <th>Edit</th>
                             <th>Delete</th>
                        </thead>
@@ -47,15 +46,14 @@
                            {% for s in whole["servers"] %}
                                 <tr>
                                     <td>
-                                        <input type="radio" class="server_selection" onclick="server_selection(this)"  name="server" value={{ s.sname }}>
+                                        <input type="radio" class="server_selection" onclick="server_selection(this)"  name="server" value={{ s.sservername }}>
                                     </td>
-                                    <td>{{ s.sname }}</td>
+                                    <td>{{ s.sservername }}</td>
                                     <td>{{ s.sip }}</td>
-                                    <td>10.1.10.23</td>
                                     <td>{{ s.sport }}</td>
-                                    <td>Runing</td>
-                                    <td>Nginx-Mysql</td>
-                                    <td>Bj-AWS</td>
+                                    <td>{{ s.ssystem }}</td>
+                                    <td>{{ s.sfunction }}</td>
+                                    <td>{{ s.splatform }}</td>
                                     <td><p data-placement="top" data-toggle="tooltip" title="Edit">
                                             <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" >
                                             <span class="glyphicon glyphicon-pencil"></span>
@@ -143,29 +141,29 @@
                       <div class="form-group col-md-4">
                           <label class="control-label">平台 Platform</label>
                           <select name="server_platform" class="form-control">
-                              <option value="aws">AWS</option>
-                              <option value="aliyun" selected>AliYun</option>
-                              <option value="idc">IDC</option>
+                              <option value="AWS">AWS</option>
+                              <option value="AliYun" selected>AliYun</option>
+                              <option value="IDC">IDC</option>
                           </select>
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">系统 Choose</label>
                           <select name="server_system" class="form-control">
-                              <option value="centos6" selected>CentOS 6</option>
-                              <option value="centos7">CentOS 7</option>
-                              <option value="ubuntu16">Ubuntu UTS 16</option>
-                              <option value="amazonlinux">Amazon Linux</option>
+                              <option value="CentOS 6" selected>CentOS 6</option>
+                              <option value="CentOS 7">CentOS 7</option>
+                              <option value="Ubuntu 16">Ubuntu UTS 16</option>
+                              <option value="Amazon Linux">Amazon Linux</option>
                           </select>
                       </div>
 
                       <div class="form-group col-md-4">
                           <label class="control-label">功能 Function</label>
                           <select name="server_function" class="form-control">
-                              <option value="nat">NAT</option>
-                              <option value="lb">LB</option>
-                              <option value="web" selected>Web</option>
-                              <option value="db">DB</option>
+                              <option value="Nat">NAT</option>
+                              <option value="LB">LB</option>
+                              <option value="Web" selected>Web</option>
+                              <option value="DB">DB</option>
                           </select>
                       </div>
 
@@ -177,8 +175,8 @@
                       <div class="form-group col-md-4">
                           <label class="control-label">选择 LVM</label>
                           <select name="server_lvm" class="form-control">
-                              <option value="yes">Yes</option>
-                              <option value="no" selected>No</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No" selected>No</option>
                           </select>
                       </div>
 
@@ -195,34 +193,34 @@
                       </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="haproxy" value="haproxy"> Haproxy
+                           <input type="checkbox" name="Haproxy" value="Haproxy"> Haproxy
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="apache" value="apache"> Apache
+                           <input type="checkbox" name="Apache" value="Apache"> Apache
                       </div>
                       <div class="row"></div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="nginx" value="nginx"> Nginx
+                           <input type="checkbox" name="Nginx" value="Nginx"> Nginx
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="mysql" value="mysql"> Mysql
+                           <input type="checkbox" name="Mysql" value="Mysql"> Mysql
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="tomcat" value="tomcat"> Tomcat
+                           <input type="checkbox" name="Tomcat" value="Tomcat"> Tomcat
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="mongo" value="mongo"> Mongo
+                           <input type="checkbox" name="Mongo" value="Mongo"> Mongo
                       </div>
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="php" value="php"> PHP
+                           <input type="checkbox" name="PHP" value="PHP"> PHP
                       </div>
 
                       <div class="row"> </div>
@@ -307,8 +305,8 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">选择 HTTPS</label>
                               <select name="apache_ssl" class="form-control">
-                                  <option value="yes">Yes</option>
-                                  <option value="no" selected>No</option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No" selected>No</option>
                               </select>
                           </div>
 
@@ -335,16 +333,16 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">引擎 Engine</label>
                               <select name="mysql_engine" class="form-control">
-                                  <option value="innodb" selected>Innodb</option>
-                                  <option value="mixed">Mixed</option>
+                                  <option value="Innodb" selected>Innodb</option>
+                                  <option value="Mixed">Mixed</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">类型 Type</label>
                               <select name="mysql_type" class="form-control">
-                                  <option value="master" selected>Master</option>
-                                  <option value="slave">Slave</option>
-                                  <option value="normal">Normal</option>
+                                  <option value="Master" selected>Master</option>
+                                  <option value="Slave">Slave</option>
+                                  <option value="Normal">Normal</option>
                               </select>
                           </div>
                           <div class="form-group col-md-5">
@@ -364,8 +362,8 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">是否 Backup</label>
                               <select name="mysql_backup" class="form-control">
-                                  <option value="yes" selected>Yes</option>
-                                  <option value="no">No</option>
+                                  <option value="Yes" selected>Yes</option>
+                                  <option value="No">No</option>
                               </select>
                           </div>
 
@@ -415,8 +413,8 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">目的地 Destination</label>
                               <select name="backup_destination" class="form-control">
-                                  <option value="s3" selected>S3</option>
-                                  <option value="oss">OSS</option>
+                                  <option value="S3" selected>S3</option>
+                                  <option value="OSS">OSS</option>
                               </select>
                           </div>
                           <div class="form-group col-md-8">

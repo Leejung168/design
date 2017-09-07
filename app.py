@@ -72,17 +72,23 @@ def servers():
         servers = session.query(ServerGroup).filter_by(ownerid=ownerid).all()
         for s in servers:
             single = {
-                "sname": s.sservername,
+                "sservername": s.sservername,
                 "sip": s.sip,
-                "sport": s.sport
+                "sport": s.sport,
+                "sfunction": s.sfunction,
+                "ssystem": s.ssystem,
+                "splatform": s.splatform,
             }
             well.append(single)
             single = {}
     except:
         single = {
-            "sname": "query-database-error",
+            "sservername": "query-database-error",
             "sip": "0.0.0.0",
-            "sip": "0"
+            "sport": "0",
+            "sgroup": "-",
+            "ssystem": "-",
+            "splatform": "-",
         }
         well.append(single)
 
@@ -110,7 +116,7 @@ def s_detailed():
         single = {
             "sname": "query-database-error",
             "sip": "0.0.0.0",
-            "sip": "0"
+            "sport": "0"
         }
 
     return render_template("detailed_info.html", info=single)
