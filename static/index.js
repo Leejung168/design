@@ -51,3 +51,8 @@ function server_selection(obj){
     var server_name = $(obj).val();
     $('.detailed_pages').load("s_detailed?server=" + server_name);
 }
+
+$('body').bind('beforeunload',function(){
+    console.log("xx");
+    $("#customer_group").trigger('click');
+});

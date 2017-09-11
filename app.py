@@ -9,7 +9,7 @@ from models import Base, CustomerGroup, ServerGroup, PasswordGroup
 from Crypto.Cipher import XOR
 import base64
 
-import json
+import json, time
 
 app = Flask(__name__)
 
@@ -226,7 +226,7 @@ def plus_customer():
 
 
 @app.route('/s_delete', methods=['POST'])
-def delete():
+def s_delete():
     servername = request.form.get('server_delete')
     ServerToDelete = session.query(ServerGroup).filter_by(sservername=servername).one()
     # try:
@@ -239,6 +239,13 @@ def delete():
     # return jsonify(ServerToDelete.sgroup)
     return jsonify("CNC")
 
+@app.route('/s_launch', methods=['POST'])
+def s_launch():
+    servername = request.form.get('server_name')
+    print servername
+    time.sleep(100)
+    return jsonify("Okay")
+
 if __name__ == '__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, threaded=True)

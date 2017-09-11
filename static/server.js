@@ -96,3 +96,35 @@ $("#server_delete_yes").click(function(){
     })
   });
 
+
+
+// Launch button
+$('.launch-button').on('click', function() {
+    var $this = $(this);
+    $this.button('loading');
+    var server_name = $this.attr("value");
+
+    $.ajax({
+        url: "/s_launch",
+        type: "post",
+        dataType: "json",
+        data: {
+            "server_name": server_name,
+        },
+        complete: function(msg){
+            $this.button('reset');
+            var customer_name = msg["responseJSON"];
+           },
+    })
+  });
+
+
+
+//$('.launch-button').on('click', function() {
+//    var $this = $(this);
+//    $this.button('loading');
+//    setTimeout(function() {
+//       $this.button('reset');
+//   }, 80000);
+//});
+
