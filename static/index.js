@@ -6,7 +6,6 @@ $(".searchbutton").click(function(){
 $('#inputbutton').keydown(function (e){
     if(e.keyCode == 13){
         var keywords = $('#inputbutton').val();
-        console.log(keywords);
         $('.pwresult').load('pw?sname=' + keywords);
     }
 })

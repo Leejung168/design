@@ -69,3 +69,30 @@ $(document).ready(function () {
 
 });
 
+
+//Delete the entry
+function server_delete(obj){
+    var server_name = $(obj).attr("id");
+    $('#server_to_delete').val(server_name);
+}
+
+$("#server_delete_yes").click(function(){
+    // Get the delete username/password id.
+    var server_name = $("#server_to_delete").val();
+    $.ajax({
+        url: "/s_delete",
+        type: "post",
+        dataType: "json",
+        data: {
+            "server_delete": server_name,
+        },
+        success: function() {
+            location.reload();
+        },
+        complete: function(msg){
+            var customer_name = msg["responseJSON"];
+            $("#page-wrapper").load('servers?name=' + customer_name);
+           },
+    })
+  });
+

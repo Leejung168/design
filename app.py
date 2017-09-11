@@ -197,7 +197,7 @@ def plus_server():
             session.commit()
             return redirect("http://localhost:5000", code=302)
         except:
-            errors = {"Status": "500", "info": "Server", "Reason": "Internal Error"}
+            errors = {"Status": "500", "info": "Failed to add server {0}".format(sservername), "Reason": "Internal Error"}
             return render_template("error.html", messages=errors), 500
 
 
@@ -221,9 +221,23 @@ def plus_customer():
             session.commit()
             return redirect("http://localhost:5000", code=302)
         except:
-            errors = {"Status": "500", "info": "Customer", "Reason": "Internal Error"}
+            errors = {"Status": "500", "info": "Failed to add Customer {0}".format(customer_name), "Reason": "Internal Error"}
             return render_template("error.html", messages=errors), 500
 
+
+@app.route('/s_delete', methods=['POST'])
+def delete():
+    servername = request.form.get('server_delete')
+    ServerToDelete = session.query(ServerGroup).filter_by(sservername=servername).one()
+    # try:
+    #     session.delete(ServerToDelete)
+    #     session.commit()
+    # except Exception, e:
+    #     errors = {"Status": "500", "info": "Failed to delete server {0}".format(servername), "Reason": "Internal Error->Database"}
+    #     return render_template("error.html", messages=errors), 500
+
+    # return jsonify(ServerToDelete.sgroup)
+    return jsonify("CNC")
 
 if __name__ == '__main__':
     app.debug = True
