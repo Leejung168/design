@@ -114,6 +114,7 @@ $('.launch-button').on('click', function() {
         complete: function(msg){
             $this.button('reset');
             var customer_name = msg["responseJSON"];
+            console.log(customer_name);
            },
     })
   });

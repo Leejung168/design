@@ -53,6 +53,5 @@ function server_selection(obj){
 }
 
 $('body').bind('beforeunload',function(){
-    console.log("xx");
     $("#customer_group").trigger('click');
 });

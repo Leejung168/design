@@ -7,6 +7,9 @@ from sqlalchemy.orm import relationship, sessionmaker
 from models import Base, CustomerGroup, ServerGroup, PasswordGroup
 
 from Crypto.Cipher import XOR
+
+from run import play
+
 import base64
 
 import json, time
@@ -243,7 +246,7 @@ def s_delete():
 def s_launch():
     servername = request.form.get('server_name')
     print servername
-    time.sleep(100)
+    play()
     return jsonify("Okay")
 
 if __name__ == '__main__':

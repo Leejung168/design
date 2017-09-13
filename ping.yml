@@ -1,0 +1,6 @@
+---
+- name: test raw module
+  hosts: all
+  tasks:
+    - name: test connection
+      ping:
