@@ -21,10 +21,12 @@ DOCUMENTATION = '''
 import os
 import time
 import json
+import redis
 from collections import MutableMapping
 
 from ansible.module_utils._text import to_bytes
 from ansible.plugins.callback import CallbackBase
+r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
 
 # NOTE: in Ansible 1.2 or later general logging is available without
@@ -32,8 +34,6 @@ from ansible.plugins.callback import CallbackBase
 # or log_path in the DEFAULTS section of your ansible configuration
 # file.  This callback is an example of per hosts logging for those
 # that want it.
-
-
 class CallbackModule(CallbackBase):
     """
     logs playbook results, per host, in /var/log/ansible/hosts
@@ -50,9 +50,6 @@ class CallbackModule(CallbackBase):
 
         super(CallbackModule, self).__init__()
 
-        if not os.path.exists("/var/log/ansible/hosts"):
-            os.makedirs("/var/log/ansible/hosts")
-
     def log(self, host, category, data):
         if isinstance(data, MutableMapping):
             if '_ansible_verbose_override' in data:
@@ -65,19 +62,17 @@ class CallbackModule(CallbackBase):
                 if invocation is not None:
                     data = json.dumps(invocation) + " => %s " % data
 
-        path = os.path.join("/tmp", host)
-        #path = os.path.join("/var/log/ansible/hosts", host)
-        now = time.strftime(self.TIME_FORMAT, time.localtime())
-
+        #now = time.strftime(self.TIME_FORMAT, time.localtime())
+        now = time.strftime("%Y%m%d%H%M%S")
         msg = to_bytes(self.MSG_FORMAT % dict(now=now, category=category, data=data))
-        with open(path, "ab") as fd:
-            fd.write(msg)
+        r.set(host + "-" + now, msg)
+        r.set(host, msg)
 
     def runner_on_failed(self, host, res, ignore_errors=False):
         self.log(host, 'FAILED', res)
 
     def runner_on_ok(self, host, res):
-        self.log(host, 'OK', res)
+        self.log(host, 'OKay', res)
 
     def runner_on_skipped(self, host, item=None):
         self.log(host, 'SKIPPED', '...')

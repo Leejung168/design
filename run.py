@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-def play(username="root", password="Lambert123", port="22", host_file="/Users/lambertli/pycharm/python2/design/host"):
+def play(username="ncadmin", password="o&aNJPR~kgeW", port="40022", host_file="/Users/lambertli/pycharm/python2/design/host"):
     import os
     import sys
     from collections import namedtuple
@@ -31,7 +31,6 @@ def play(username="root", password="Lambert123", port="22", host_file="/Users/la
     play = PlaybookExecutor(playbooks=[playbook_path], inventory=inventory, variable_manager=variable_manager, loader=loader, options=options,passwords=passwords)
 
     results = play.run()
-    print results
 
 
 if __name__ == '__main__':

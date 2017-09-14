@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template, request, redirect, jsonify, url_for, g, flash,abort
+from flask import Flask, render_template, request, redirect, jsonify
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -7,12 +7,15 @@ from sqlalchemy.orm import relationship, sessionmaker
 from models import Base, CustomerGroup, ServerGroup, PasswordGroup
 
 from Crypto.Cipher import XOR
+import base64, json
 
-from run import play
+from sender import publish
 
-import base64
+import redis
 
-import json, time
+# Set the pre-run host into redis db=1
+redis_session1 = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
+
 
 app = Flask(__name__)
 
@@ -244,9 +247,20 @@ def s_delete():
 
 @app.route('/s_launch', methods=['POST'])
 def s_launch():
-    servername = request.form.get('server_name')
-    print servername
-    play()
+    server_name = request.form.get('server_name')
+
+    # Check the server if exist in redis
+    CheckExist = redis_session1.get(server_name)
+    if CheckExist is not None:
+        if CheckExist == "Failed":
+            redis_session1.set(server_name, "InProgress")
+        if CheckExist == "Succeed":
+            return jsonify("Already run, and it was successful!!!")
+    else:
+        redis_session1.set(server_name, "InProgress")
+
+    publish(server_name)
+
     return jsonify("Okay")
 
 if __name__ == '__main__':

@@ -40,14 +40,18 @@ $(document).ready(function () {
 //            var services = $('input[name="services"]:checked').serialize().split("&");
               var services = $('input[type="checkbox"]:checked').serialize().split("&");
               var res = [];
-              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"];
+              var support = ["Nginx", "Apache", "Mysql", "Tomcat", "Haproxy"];
+//              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"];
               $.each(services, function(index, value){
                  res.push(value.split("=")[1]);
                }
               )
 
               for (i in res){
-                  support.splice($.inArray(res[i], support), 1);
+                  console.log($.inArray(res[i], support));
+                  if ($.inArray(res[i], support) != -1){
+                      support.splice($.inArray(res[i], support), 1);
+                  }
               }
 
 //             TODO: when user wants to come back step2, it doesn't work
@@ -128,4 +132,3 @@ $('.launch-button').on('click', function() {
 //       $this.button('reset');
 //   }, 80000);
 //});
-
