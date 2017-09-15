@@ -32,6 +32,7 @@ for item in ps.listen():
             f.write(server_name + " ansible_ssh_host=" + server.sip)
 
         try:
+            print server_name
             play(username=username, password=password, port=port, host_file=inventory)
             last_log = redis_session0.get(server_name)
             last_status = last_log.split("-")[1].strip()

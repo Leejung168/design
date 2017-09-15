@@ -55,3 +55,14 @@ function server_selection(obj){
 $('body').bind('beforeunload',function(){
     $("#customer_group").trigger('click');
 });
+
+function customer(obj){
+   // Get name when choose customer
+    var name = $(obj).attr("id");
+    $('#page-wrapper').load('servers?name=' + name);
+}
+
+$(".show_tasks").click(function(){
+    $("#show_tasks").load('show_tasks')
+}
+)

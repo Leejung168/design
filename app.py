@@ -254,7 +254,7 @@ def s_launch():
     if CheckExist is not None:
         if CheckExist == "Failed":
             redis_session1.set(server_name, "InProgress")
-        if CheckExist == "Succeed":
+        if CheckExist == "OKay":
             return jsonify("Already run, and it was successful!!!")
     else:
         redis_session1.set(server_name, "InProgress")
@@ -262,6 +262,26 @@ def s_launch():
     publish(server_name)
 
     return jsonify("Okay")
+
+
+# Show task status
+@app.route('/show_tasks')
+def show_tasks():
+    status = []
+    try:
+        keys = redis_session1.keys()
+        for k in keys:
+            s = {k: redis_session1.get(k)}
+            status.append(s)
+            s = {}
+
+    except Exception as e:
+        print e
+        s = {"error": e}
+        status.append(s)
+
+    return render_template("show_tasks.html", status=status)
+
 
 if __name__ == '__main__':
     app.debug = True

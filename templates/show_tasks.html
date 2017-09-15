@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show-Tasks</title>
+</head>
+<body>
+    {% for s in status %}
+        {% for key, value in s.items() %}
+            <li>
+                <a href="#">
+                    <div>
+                        <p>
+                            <strong>{{ key }}</strong>
+                            <span class="pull-right text-muted">{{ value }}</span>
+                        </p>
+
+                        {% if value == "OKay" %}
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <span class="sr-only">Success</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if value == "InProgress" %}
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <span class="sr-only">InProgress</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if value == "FAILED" %}
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <span class="sr-only">Failed</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if value == "UNREACHABLE" %}
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                    <span class="sr-only">Unreachable</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </a>
+            </li>
+            <li class="divider"></li>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>
