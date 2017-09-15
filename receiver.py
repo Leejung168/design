@@ -11,6 +11,10 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# db=0 will save the running logs.
+redis_session0 = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+
+# db=1 will save the last status.
 redis_session1 = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
 ps = redis_session1.pubsub()
 ps.subscribe(['servername'])
@@ -29,6 +33,8 @@ for item in ps.listen():
 
         try:
             play(username=username, password=password, port=port, host_file=inventory)
-            redis_session1.set(server_name, "Succeed")
+            last_log = redis_session0.get(server_name)
+            last_status = last_log.split("-")[1].strip()
+            redis_session1.set(server_name, last_status)
         except:
             redis_session1.set(server_name, "Failed")
