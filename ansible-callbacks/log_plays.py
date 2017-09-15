@@ -62,7 +62,6 @@ class CallbackModule(CallbackBase):
                 if invocation is not None:
                     data = json.dumps(invocation) + " => %s " % data
 
-        #now = time.strftime(self.TIME_FORMAT, time.localtime())
         now = time.strftime("%Y%m%d%H%M%S")
         msg = to_bytes(self.MSG_FORMAT % dict(now=now, category=category, data=data))
         r.set(host + "-" + now, msg)
