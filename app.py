@@ -163,7 +163,6 @@ def pw():
 @app.route('/plus_server', methods=["POST"])
 def plus_server():
     data = request.form.to_dict()
-    print data
 
     sservername = data.pop("server_name").encode("utf-8")
     susername = data.pop("server_username").encode("utf-8")
@@ -208,6 +207,58 @@ def plus_server():
             return render_template("error.html", messages=errors), 500
 
 
+# Obtain Plus info via Ajax, but via post is not safe, so I gave up.
+@app.route('/s_plus', methods=["POST"])
+def s_plus():
+    data = request.args.to_dict()
+
+    sservername = data.pop("server_name").encode("utf-8")
+    susername = data.pop("server_username").encode("utf-8")
+    spassword = data.pop("server_password").encode("utf-8")
+    sip = data.pop("server_ip").encode("utf-8")
+    sport = data.pop("server_port").encode("utf-8")
+    sfunction = data.pop("server_function").encode("utf-8")
+    slvm = data.pop("server_lvm").encode("utf-8")
+    sgroup = data.pop("server_group").encode("utf-8")
+    sdisk = data.pop("server_disk").encode("utf-8")
+    ssystem = data.pop("server_system").encode("utf-8")
+    splatform = data.pop("server_platform").encode("utf-8")
+    sservices = json.dumps(data)
+
+    print ssystem
+    print sservices
+    try:
+        session.query(ServerGroup).filter_by(sservername=sservername).one()
+        existed = {"Status": "Error", "Reason": "Server {0} Already Existed".format(sservername)}
+        return render_template("error.html", messages=existed), 499
+    except:
+        try:
+            customer_entry = session.query(CustomerGroup).filter_by(name=sgroup).one()
+            server = ServerGroup(
+                sservername=sservername,
+                susername=susername,
+                spassword=spassword,
+                sip=sip,
+                sport=sport,
+                sfunction=sfunction,
+                slvm=slvm,
+                sgroup=sgroup,
+                sdisk=sdisk,
+                ssystem=ssystem,
+                splatform=splatform,
+                sservices=sservices,
+                owner=customer_entry
+            )
+            session.add(server)
+            session.commit()
+            return jsonify(sgroup)
+        except:
+            errors = {"Status": "500", "info": "Failed to add server {0}".format(sservername),
+                      "Reason": "Internal Error"}
+            return render_template("error.html", messages=errors), 500
+
+
+
 
 @app.route('/plus_customer', methods=["POST"])
 def plus_customer():
@@ -236,15 +287,14 @@ def plus_customer():
 def s_delete():
     servername = request.form.get('server_delete')
     ServerToDelete = session.query(ServerGroup).filter_by(sservername=servername).one()
-    # try:
-    #     session.delete(ServerToDelete)
-    #     session.commit()
-    # except Exception, e:
-    #     errors = {"Status": "500", "info": "Failed to delete server {0}".format(servername), "Reason": "Internal Error->Database"}
-    #     return render_template("error.html", messages=errors), 500
+    try:
+        session.delete(ServerToDelete)
+        session.commit()
+    except Exception, e:
+        errors = {"Status": "500", "info": "Failed to delete server {0}".format(servername), "Reason": "Internal Error->Database"}
+        return render_template("error.html", messages=errors), 500
 
-    # return jsonify(ServerToDelete.sgroup)
-    return jsonify("CNC")
+    return jsonify(ServerToDelete.sgroup)
 
 @app.route('/s_launch', methods=['POST'])
 def s_launch():

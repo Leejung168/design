@@ -54,22 +54,7 @@
                         <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-tasks" id="show_tasks">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <p>
-                                        <strong>srv-nc-prod-web1</strong>
-                                        <span class="pull-right text-muted">In Progress</span>
-                                    </p>
-                                    <div class="progress progress-striped active">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-                                            <span class="sr-only">20% Complete</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
+                          <!--Show task status, will obtain via Jquery load-->
                     </ul>
                     <!-- /.dropdown-tasks -->
                 </li>
@@ -110,7 +95,6 @@
                             <a href="#" id="customer_group"><i class="fa fa-sitemap fa-fw"></i>Customer-Group<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level" id="customer">
                                 <!--Data will insert to here via JS-->
-
                             </ul>
                         </li>
                         
@@ -210,6 +194,464 @@
 
     </div>
     <!-- /#wrapper -->
+
+        <!--The Plus Dialog-->
+    <div class="modal fade col-md-8 col-md-offset-2" id="plus" tabindex="-1" role="dialog" aria-labelledby="edit"">
+        <div class="modal-content responsive">
+            <div class="stepwizard col-md-offset-3">
+                <div class="stepwizard-row setup-panel modal-header">
+                  <div class="stepwizard-step">
+                    <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                    <p>OSInfo</p>
+                  </div>
+                  <div class="stepwizard-step">
+                    <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                    <p>Software</p>
+                  </div>
+                  <div class="stepwizard-step">
+                    <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                    <p>Service</p>
+                  </div>
+                </div>
+              </div>
+             <div class="modal-body">
+              <form role="form" action="/plus_server" method="post" id="register_form">
+                <div class="row setup-content" id="step-1">
+                  <div class="col-xs-6 col-md-offset-3">
+                      <h4>系统信息</h4>
+                      <div class="form-group col-md-6">
+                        <label class="control-label">服务器名 name</label>
+                        <input  maxlength="100" type="text" required="required" name="server_name" class="form-control" placeholder="srv-nc-prod-web1"  value="srv-nc-prod-web1" />
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label class="control-label">用户组 Group</label>
+                        <input  maxlength="100" type="text" required="required" id="user-group" name="server_group" value="" class="form-control" placeholder="srv-nc-prod-web1" readonly/>
+                      </div>
+
+                      <div class="form-group col-md-8">
+                         <label class="control-label">登陆 IP</label>
+                         <input maxlength="50" type="text" required="required" name="server_ip" class="form-control" placeholder="114.114.114.114" value="114.114.114.114" />
+                      </div>
+
+                      <div class="form-group col-md-4">z
+                          <label class="control-label">端口 Port</label>
+                          <input maxlength="50" type="text" required="required" name="server_port" class="form-control" placeholder="40022" value="40022" />
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label class="control-label">用户 UserName</label>
+                        <input maxlength="100" type="text" required="required" name="server_username" class="form-control" placeholder="root" value="root" />
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <label class="control-label">密码 Password</label>
+                        <input maxlength="100" type="password" required="required" name="server_password" class="form-control" placeholder="Enter SSH Password" value="lambert" />
+                      </div>
+
+                      <div class="form-group col-md-4">
+                          <label class="control-label">平台 Platform</label>
+                          <select name="server_platform" class="form-control">
+                              <option value="AWS">AWS</option>
+                              <option value="AliYun" selected>AliYun</option>
+                              <option value="IDC">IDC</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                          <label class="control-label">系统 Choose</label>
+                          <select name="server_system" class="form-control">
+                              <option value="CentOS 6" selected>CentOS 6</option>
+                              <option value="CentOS 7">CentOS 7</option>
+                              <option value="Ubuntu 16">Ubuntu UTS 16</option>
+                              <option value="Amazon Linux">Amazon Linux</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-md-4">
+                          <label class="control-label">功能 Function</label>
+                          <select name="server_function" class="form-control">
+                              <option value="Nat">NAT</option>
+                              <option value="LB">LB</option>
+                              <option value="Web" selected>Web</option>
+                              <option value="DB">DB</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-md-8">
+                        <label class="control-label">数据盘 DataDisk</label>
+                        <input maxlength="100" type="text" required="required" name="server_disk" class="form-control" placeholder="/dev/xvdb" value="/dev/xvdb" />
+                      </div>
+
+                      <div class="form-group col-md-4">
+                          <label class="control-label">选择 LVM</label>
+                          <select name="server_lvm" class="form-control">
+                              <option value="Yes">Yes</option>
+                              <option value="No" selected>No</option>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-md-12">
+                          <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="row setup-content" id="step-2">
+                  <div class="col-xs-6 col-md-offset-3">
+                      <div class="form-group col-md-12">
+                            <h3>服务 选择</h3>
+                      </div>
+
+                      <div class="form-group col-md-4 col-md-offset-2">
+                           <input type="checkbox" name="Haproxy" value="Haproxy"> Haproxy
+                      </div>
+
+                      <div class="form-group col-md-4">
+                           <input type="checkbox" name="Apache" value="Apache"> Apache
+                      </div>
+                      <div class="row"></div>
+
+                      <div class="form-group col-md-4 col-md-offset-2">
+                           <input type="checkbox" name="Nginx" value="Nginx"> Nginx
+                      </div>
+
+                      <div class="form-group col-md-4">
+                           <input type="checkbox" name="Mysql" value="Mysql"> Mysql
+                      </div>
+                      <div class="row"> </div>
+
+                      <div class="form-group col-md-4 col-md-offset-2">
+                           <input type="checkbox" name="Tomcat" value="Tomcat"> Tomcat
+                      </div>
+
+                      <div class="form-group col-md-4">
+                           <input type="checkbox" name="Mongo" value="Mongo"> Mongo
+                      </div>
+                      <div class="row"> </div>
+
+                      <div class="form-group col-md-4 col-md-offset-2">
+                           <input type="checkbox" name="PHP" value="PHP"> PHP
+                      </div>
+
+                      <div class="row"> </div>
+
+                      <div class="form-group col-md-12">
+                          <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="row setup-content" id="step-3">
+
+                  <div class="col-xs-6 col-md-offset-3">
+                      <div class="row Haproxy">
+                          <h4>Haproxy</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="haproxy_version" class="form-control">
+                                  <option value="1.5">1.5</option>
+                                  <option value="latest" selected>Latest</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">监听 Listen</label>
+                              <input maxlength="50" type="text" name="haproxy_listen" required="required" class="form-control" placeholder="80" value="80"/>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label class="control-label">后端 Hosts</label>
+                              <textarea maxlength="50" type="text" name="haproxy_backends" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                          </div>
+
+                      </div>
+
+                      <div class="row Nginx">
+                          <h4>Nginx</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="nginx_version" class="form-control">
+                                  <option value="1.6">1.6</option>
+                                  <option value="latest" selected>Latest</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">域名 Domain</label>
+                              <input maxlength="50" type="text" required="required" name="nginxdomain" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">选择 HTTPS</label>
+                              <select name="nginx_ssl" class="form-control">
+                                  <option value="yes">Yes</option>
+                                  <option value="no" selected>No</option>
+                              </select>
+                          </div>
+
+                          <div class="form-group col-md-8">
+                              <label class="control-label">根目录 Root</label>
+                              <input maxlength="50" name="nginx_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
+                          </div>
+
+                          <div class="form-group col-md-12">
+                              <label class="control-label">后端 Hosts</label>
+                              <textarea maxlength="50" name="nginx_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                          </div>
+                      </div>
+
+                      <div class="row Apache">
+                          <h4>Apache</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="apache_version" class="form-control">
+                                  <option value="2.2">2.2</option>
+                                  <option value="2.4" selected>2.4</option>
+                                  <option value="latest">Latest</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">域名 Domain</label>
+                              <input maxlength="50" name="apache_domain" type="text" required="required" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">选择 HTTPS</label>
+                              <select name="apache_ssl" class="form-control">
+                                  <option value="Yes">Yes</option>
+                                  <option value="No" selected>No</option>
+                              </select>
+                          </div>
+
+                          <div class="form-group col-md-8">
+                              <label class="control-label">根目录 Root</label>
+                              <input maxlength="50" name="apache_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
+                          </div>
+
+                          <div class="form-group col-md-12">
+                              <label class="control-label">后端 Hosts</label>
+                              <textarea maxlength="50" name="apache_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                          </div>
+                      </div>
+
+                      <div class="row Mysql">
+                          <h4>Mysql</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="mysql_version" class="form-control">
+                                  <option value="5.6" selected>5.6</option>
+                                  <option value="5.7">5.7</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">引擎 Engine</label>
+                              <select name="mysql_engine" class="form-control">
+                                  <option value="Innodb" selected>Innodb</option>
+                                  <option value="Mixed">Mixed</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">类型 Type</label>
+                              <select name="mysql_type" class="form-control">
+                                  <option value="Master" selected>Master</option>
+                                  <option value="Slave">Slave</option>
+                                  <option value="Normal">Normal</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-5">
+                              <label class="control-label">InnodbBufferSize(G)</label>
+                              <input maxlength="50" type="text" name="mysql_buffersize" required="required" class="form-control" placeholder="75% of Phy Mem" value="75"/>
+                          </div>
+                          <div class="form-group col-md-7">
+                              <label class="control-label">数据目录 DataDir</label>
+                              <input maxlength="50" type="text" name="mysql_datadir" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/var/lib/mysql/data"/>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">MaxConnection</label>
+                              <input maxlength="50" type="text" name="mysql_maxconn" required="required" class="form-control" placeholder="4096" value="4096"/>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">是否 Backup</label>
+                              <select name="mysql_backup" class="form-control">
+                                  <option value="Yes" selected>Yes</option>
+                                  <option value="No">No</option>
+                              </select>
+                          </div>
+
+                      </div>
+
+
+                      <div class="row Tomcat">
+                          <h4>Tomcat</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="tomcat_version" class="form-control">
+                                  <option value="7" selected>7.0+</option>
+                                  <option value="8">8.0+</option>
+                                  <option value="latest">Latest</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">Java Version</label>
+                              <select name="java_version" class="form-control">
+                                  <option value="1.7" selected>1.7+</option>
+                                  <option value="1.8">1.8+</option>
+                                  <option value="latest">Latest</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">安装目录 Dir</label>
+                              <input maxlength="50" type="text" name="tomcat_root" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/opt"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">安装名 Name</label>
+                              <input maxlength="50" type="text" name="tomcat_name" required="required" class="form-control" placeholder="tomcat" value="tomcat"/>
+                          </div>
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">Heap Memory(G)</label>
+                              <input maxlength="50" type="text" name="tomcat_heapmemory" required="required" class="form-control" placeholder="2G" value="2G"/>
+                          </div>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">JMX Port(G)</label>
+                              <input maxlength="50" type="text" name="tomcat_jmxport" required="required" class="form-control" placeholder="6379" value="6379"/>
+                          </div>
+
+                      </div>
+
+                      <div class="row backup">
+                          <h4>Backup</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">目的地 Destination</label>
+                              <select name="backup_destination" class="form-control">
+                                  <option value="S3" selected>S3</option>
+                                  <option value="OSS">OSS</option>
+                              </select>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input maxlength="50" type="text" name="backup_accessid" required="required" class="form-control" placeholder="Access_ID" value="Access_ID"/>
+                          </div>
+                          <div class="form-group col-md-8">
+                              <input maxlength="50" type="password" name="backup_accesskey" required="required" class="form-control" placeholder="Access_Key" value="Access_Key"/>
+                          </div>
+
+                          <div class="form-group col-md-12">
+                                  <label class="control-label">备份目录 Folder</label>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder1" required="required" class="form-control" placeholder="/etc" value="/etc" readonly/>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder2" required="required" class="form-control" placeholder="/var/spool/cron" value="/var/spool/cron" readonly/>
+                          </div>
+
+                          <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder3" required="required" class="form-control" placeholder="/opt/ncscripts" value="/opt/ncscripts" readonly/>
+                          </div>
+
+                           <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder4" required="required" class="form-control" placeholder="backup folder" value="-"/>
+                          </div>
+
+                           <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder5" required="required" class="form-control" placeholder="backup folder" value="-"/>
+                          </div>
+
+                      </div>
+
+                      <div class="row zabbix">
+                          <h4>Zabbix</h4>
+                          <div class="form-group col-md-8">
+                              <label class="control-label">选择 Proxy</label>
+                              <select name="zabbix_proxy" class="form-control">
+                                  <option value="srv-nc-bj-zabbixproxy1" selected>srv-nc-bj-zabbixproxy1</option>
+                                  <option value="srv-nc-hz-zabbixproxy1">srv-nc-hz-zabbixproxy1</option>
+                                  <option value="srv-nc-jp-zabbixproxy1">srv-nc-jp-zabbixproxy1</option>
+                                  <option value="srv-nc-oregon-zabbixproxy1">srv-nc-oregon-zabbixproxy1</option>
+                                  <option value="srv-nc-sg-zabbixproxy1">srv-nc-sg-zabbixproxy1</option>
+                                  <option value="srv-nc-sh-aliyun-zabbixproxy1">srv-nc-sh-aliyun-zabbixproxy1</option>
+                              </select>
+                          </div>
+                      </div>
+
+
+
+                    <div class="form-group col-md-12">
+                      <button class="btn btn-primary btn-lg pull-right" type="submit">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+             <div class="modal-footer">
+               <button type="button" class="btn btn-default" id="plus-form" data-dismiss="modal">Add</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </div>
+        </div>
+    </div>
+
+    <!-- The Update dialog -->
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+          </div>
+          <div class="modal-body">
+               <!--<div class="form-group">-->
+                    <input type="hidden" id="u_hostid" placeholder="hostid"/>
+                <!--</div>-->
+
+                <div class="form-group">
+                    <input type="text" class="form-control" id="u_servername" placeholder="servername"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="u_ip" placeholder="ip">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" id="u_port" placeholder="port">
+                </div>
+
+                <div class="form-group">
+                    <input class="form-control " type="text" id="u_username" placeholder="username">
+                </div>
+              <div class="form-group">
+                    <input class="form-control " type="text" id="u_password" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" id="u_comment" placeholder="comment"></textarea>
+                </div>
+          </div>
+          <div class="modal-footer ">
+            <button type="button" class="btn btn-warning btn-lg" data-dismiss="modal" id="lambertupdate" style="width: 100%; "><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+          </div>
+        </div>
+      </div>
+     </div>
+
+    <!-- The Delete Dialog-->
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+       <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+          </div>
+          <div class="modal-body">
+           <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?
+               <input type="text" name="server_to_delete" id="server_to_delete" readonly/>
+           </div>
+          </div>
+          <div class="modal-footer ">
+            <button type="button" class="btn btn-success" id="server_delete_yes" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- jQuery -->
     <script src="http://localhost/vendor/jquery/jquery.min.js"></script>
