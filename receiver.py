@@ -4,6 +4,7 @@ from run import play
 from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship, sessionmaker
 from models import Base, ServerGroup
+import yaml
 
 # Create Database session
 engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
@@ -27,12 +28,28 @@ for item in ps.listen():
         username = server.susername
         password = server.spassword
         port = server.sport
-        inventory = "/tmp/." + server.sip
+
+        #Write Inventory to file
+        inventory = "/tmp/." + server_name
         with open(inventory, 'w') as f:
             f.write(server_name + " ansible_ssh_host=" + server.sip)
 
+
+        #To check LVM if needed, then write to host var.
+        lvm_check = server.slvm
+        if lvm_check == 'No':
+            host_var = "server_enable_lvm: false"
+        else:
+            disk_name = server.sdisk
+            host_var = {'vgs': [{'device': disk_name, 'name': 'domuvg'}]}
+
+        with open("/Users/lambertli/pycharm/python2/post_install/host_vars/{0}".format(server_name), 'w') as f:
+            if host_var is dict:
+                yaml.dump(host_var, f)
+            else:
+                f.write(host_var)
+
         try:
-            print server_name
             play(username=username, password=password, port=port, host_file=inventory)
             last_log = redis_session0.get(server_name)
             last_status = last_log.split("-")[1].strip()

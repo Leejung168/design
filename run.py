@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-def play(username="ncadmin", password="o&aNJPR~kgeW", port="40022", host_file="/Users/lambertli/pycharm/python2/design/host"):
+def play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz-client1"):
     import os
     import sys
     from collections import namedtuple
@@ -14,8 +14,7 @@ def play(username="ncadmin", password="o&aNJPR~kgeW", port="40022", host_file="/
     loader = DataLoader()
 
     inventory = Inventory(loader=loader, variable_manager=variable_manager,  host_list=host_file)
-
-    playbook_path = '/Users/lambertli/pycharm/python2/design/ping.yml'
+    playbook_path = '/Users/lambertli/pycharm/python2/post_install/postinstall_step2.yml'
 
     if not os.path.exists(playbook_path):
         print '[INFO] The playbook does not exist'
@@ -34,4 +33,4 @@ def play(username="ncadmin", password="o&aNJPR~kgeW", port="40022", host_file="/
 
 
 if __name__ == '__main__':
-    play()
+    play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz-client1")

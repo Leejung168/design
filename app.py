@@ -225,8 +225,6 @@ def s_plus():
     splatform = data.pop("server_platform").encode("utf-8")
     sservices = json.dumps(data)
 
-    print ssystem
-    print sservices
     try:
         session.query(ServerGroup).filter_by(sservername=sservername).one()
         existed = {"Status": "Error", "Reason": "Server {0} Already Existed".format(sservername)}
@@ -303,10 +301,14 @@ def s_launch():
     # Check the server if exist in redis
     CheckExist = redis_session1.get(server_name)
     if CheckExist is not None:
-        if CheckExist == "Failed":
+        if CheckExist == "FAILED":
             redis_session1.set(server_name, "InProgress")
         if CheckExist == "OKay":
-            return jsonify("Already run, and it was successful!!!")
+
+            # TODO, Debug, so didn't return directly when it was successful.
+            redis_session1.set(server_name, "InProgress")
+
+            # return jsonify("Already run, and it was successful!!!")
     else:
         redis_session1.set(server_name, "InProgress")
 
