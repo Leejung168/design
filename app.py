@@ -12,11 +12,8 @@ import base64, json
 from sender import publish
 
 import redis
-
-# Set the pre-run host into redis db=1
-redis_session1 = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
-
 redis_session0 = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+redis_session1 = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
 
 app = Flask(__name__)
 
@@ -256,8 +253,6 @@ def s_plus():
             return render_template("error.html", messages=errors), 500
 
 
-
-
 @app.route('/plus_customer', methods=["POST"])
 def plus_customer():
     customer_name = request.form.get("customer_name")
@@ -301,7 +296,7 @@ def s_launch():
     # Check the server if exist in redis
     CheckExist = redis_session1.get(server_name)
     if CheckExist is not None:
-        if CheckExist == "FAILED":
+        if CheckExist == "FAILED" or CheckExist == "FAILED_DIRECTLY":
             redis_session1.set(server_name, "InProgress")
         if CheckExist == "OKay":
 

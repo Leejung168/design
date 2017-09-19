@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 import redis
+import yaml
 from run import play
 from sqlalchemy import create_engine
 from sqlalchemy.orm import relationship, sessionmaker
 from models import Base, ServerGroup
-import yaml
+
 
 # Create Database session
 engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
@@ -28,6 +29,7 @@ for item in ps.listen():
         username = server.susername
         password = server.spassword
         port = server.sport
+        sid = server.id
 
         #Write Inventory to file
         inventory = "/tmp/." + server_name
@@ -47,12 +49,13 @@ for item in ps.listen():
             if host_var is dict:
                 yaml.dump(host_var, f)
             else:
-                f.write(host_var)
+                f.write(str(host_var))
 
+        print username, password, port, inventory, server_name
         try:
-            play(username=username, password=password, port=port, host_file=inventory)
+            play(username=username, password=password, port=port, host_file=inventory, servername=server_name)
             last_log = redis_session0.get(server_name)
             last_status = last_log.split("-")[1].strip()
             redis_session1.set(server_name, last_status)
         except:
-            redis_session1.set(server_name, "Failed")
+            redis_session1.set(server_name, "FAILED_DIRECTLY")
