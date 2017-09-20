@@ -130,11 +130,15 @@ def s_detailed():
 # Obtain the password info per server name from the request header.
 @app.route('/pw')
 def pw():
+    engine = create_engine('mysql://root:lambert@127.0.0.1:3306/cg')
+    Base.metadata.bind = engine
+    DBSession = sessionmaker(bind=engine)
+    session1 = DBSession()
     sname = request.args.get("sname")
     try:
 
         sid = session.query(ServerGroup).filter_by(sservername=sname).one().id
-        passwd = session.query(PasswordGroup).filter_by(sid=sid).one()
+        passwd = session1.query(PasswordGroup).filter_by(sid=sid).one()
 
         info = {
             "ncadmin": decrypt(passwd.ncadmin),
@@ -155,7 +159,7 @@ def pw():
             "ncbackupdb": "query-database-error or No entry",
             "ncdba": "query-database-error or No entry"
         }
-
+    session1.close()
     return render_template("pw_info.html", pw=info)
 
 
