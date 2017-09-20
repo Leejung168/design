@@ -2,8 +2,7 @@
 from flask import Flask, render_template, request, redirect, jsonify
 
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import sessionmaker
 from models import Base, CustomerGroup, ServerGroup, PasswordGroup
 
 from Crypto.Cipher import XOR
@@ -27,6 +26,7 @@ session = DBSession()
 # Encrypt/Decrypt Password
 
 secret_key = '*XaDt(sfGd{6Qy+4q|.%0j;Fdm5?n!*~'
+
 def encrypt(plaintext, key=secret_key):
   cipher = XOR.new(key)
   return base64.b64encode(cipher.encrypt(plaintext))
@@ -37,19 +37,20 @@ def decrypt(ciphertext, key=secret_key):
   return cipher.decrypt(base64.b64decode(ciphertext))
 
 
-# App
+# App index page
 @app.route('/')
 def index():
     return render_template("index.html")
 
 
+# List all customers
 @app.route('/customer', methods=['GET', 'POST'])
 def customer():
     customers = []
     idd = request.form.get('iid')
     if idd == "1":
         try:
-            customer_group=session.query(CustomerGroup).all()
+            customer_group = session.query(CustomerGroup).all()
             for c in customer_group:
                 customers.append(c.name)
         except:
@@ -131,8 +132,10 @@ def s_detailed():
 def pw():
     sname = request.args.get("sname")
     try:
-        sid = session.query(ServerGroup).filter_by(sname=sname).one().id
+
+        sid = session.query(ServerGroup).filter_by(sservername=sname).one().id
         passwd = session.query(PasswordGroup).filter_by(sid=sid).one()
+
         info = {
             "ncadmin": decrypt(passwd.ncadmin),
             "root": decrypt(passwd.root),
@@ -145,12 +148,12 @@ def pw():
     except Exception as e:
         print e
         info = {
-            "ncadmin": "query-database-error",
-            "root": "query-database-error",
-            "gpg_key": "query-database-error",
-            "nccheckdb": "query-database-error",
-            "ncbackupdb": "query-database-error",
-            "ncdba": "query-database-error"
+            "ncadmin": "query-database-error or No entry",
+            "root": "query-database-error or No entry",
+            "gpg_key": "query-database-error or No entry",
+            "nccheckdb": "query-database-error or No entry",
+            "ncbackupdb": "query-database-error or No entry",
+            "ncdba": "query-database-error or No entry"
         }
 
     return render_template("pw_info.html", pw=info)

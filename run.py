@@ -27,6 +27,10 @@ def encrypt(plaintext, key=secret_key):
   cipher = XOR.new(key)
   return base64.b64encode(cipher.encrypt(plaintext))
 
+def decrypt(ciphertext, key=secret_key):
+  cipher = XOR.new(key)
+  return cipher.decrypt(base64.b64decode(ciphertext))
+
 def generate_passwd(length):
     passwd_format = string.digits + string.ascii_letters
     passwd = []
@@ -49,11 +53,9 @@ def play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz
 
     try:
         CheckExist = session.query(PasswordGroup).filter_by(sid=i.id).one()
-        CheckExist.root=encrypt(username)
-        CheckExist.ncadmin = encrypt(ncadmin)
-        session.commit()
+        ncadmin = decrypt(CheckExist.ncadmin)
     except:
-        pw = PasswordGroup(root=encrypt(username), ncadmin=encrypt(ncadmin),
+        pw = PasswordGroup(root=encrypt(password), ncadmin=encrypt(ncadmin),
                            nccheckdb="-", ncbackupdb="-",
                            ncdba="-", gpg_key="-", owner=i)
         session.add(pw)
@@ -77,7 +79,7 @@ def play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz
 
     variable_manager.extra_vars = {'ansible_port': port}
 
-    passwords ={"conn_pass": password}
+    passwords = {"conn_pass": password}
 
     play = PlaybookExecutor(playbooks=[playbook_path], inventory=inventory, variable_manager=variable_manager, loader=loader, options=options,passwords=passwords)
 
