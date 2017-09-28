@@ -322,15 +322,18 @@
                       <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
-                           <input type="checkbox" name="Tomcat" value="Tomcat"> Tomcat
+                           <input type="checkbox" name="Java" value="Java"> Java
                       </div>
 
                       <div class="form-group col-md-4">
-                           <input type="checkbox" name="Mongo" value="Mongo"> Mongo
+                           <input type="checkbox" name="Tomcat" value="Tomcat"> Tomcat
                       </div>
-                      <div class="row"> </div>
 
                       <div class="form-group col-md-4 col-md-offset-2">
+                           <input type="checkbox" name="Redis" value="Redis"> Redis
+                      </div>
+
+                      <div class="form-group col-md-4">
                            <input type="checkbox" name="PHP" value="PHP"> PHP
                       </div>
 
@@ -356,7 +359,7 @@
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">监听 Listen</label>
-                              <input maxlength="50" type="text" name="haproxy_listen" required="required" class="form-control" placeholder="80" value="80"/>
+                              <input maxlength="50" type="text" name="haproxy_listen" required="required" class="form-control" placeholder="80" value="80" readonly/>
                           </div>
                           <div class="form-group col-md-12">
                               <label class="control-label">后端 Hosts</label>
@@ -387,15 +390,6 @@
                               </select>
                           </div>
 
-                          <div class="form-group col-md-8">
-                              <label class="control-label">根目录 Root</label>
-                              <input maxlength="50" name="nginx_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
-                          </div>
-
-                          <div class="form-group col-md-12">
-                              <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" name="nginx_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
-                          </div>
                       </div>
 
                       <div class="row Apache">
@@ -420,16 +414,6 @@
                                   <option value="No" selected>No</option>
                               </select>
                           </div>
-
-                          <div class="form-group col-md-8">
-                              <label class="control-label">根目录 Root</label>
-                              <input maxlength="50" name="apache_root" type="text" required="required" class="form-control" placeholder="80" value="/var/www/sites"/>
-                          </div>
-
-                          <div class="form-group col-md-12">
-                              <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" name="apache_backends" type="text" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
-                          </div>
                       </div>
 
                       <div class="row Mysql">
@@ -437,15 +421,14 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
                               <select name="mysql_version" class="form-control">
-                                  <option value="5.6" selected>5.6</option>
-                                  <option value="5.7">5.7</option>
+                                  <option value="Percona 5.6" selected>Percona 5.6</option>
+                                  <option value="Percona 5.7">Percona 5.7</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">引擎 Engine</label>
                               <select name="mysql_engine" class="form-control">
                                   <option value="Innodb" selected>Innodb</option>
-                                  <option value="Mixed">Mixed</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
@@ -486,37 +469,63 @@
                           <div class="form-group col-md-4">
                               <label class="control-label">版本 Version</label>
                               <select name="tomcat_version" class="form-control">
-                                  <option value="7" selected>7.0+</option>
-                                  <option value="8">8.0+</option>
-                                  <option value="latest">Latest</option>
+                                  <option value="Tomcat 7" selected>7.0+</option>
+                                  <option value="Tomcat 8">8.0+</option>
                               </select>
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">Java Version</label>
                               <select name="java_version" class="form-control">
+                                  <option value="1.6">1.6+</option>
                                   <option value="1.7" selected>1.7+</option>
                                   <option value="1.8">1.8+</option>
-                                  <option value="latest">Latest</option>
                               </select>
-                          </div>
-                          <div class="form-group col-md-4">
-                              <label class="control-label">安装目录 Dir</label>
-                              <input maxlength="50" type="text" name="tomcat_root" required="required" class="form-control" placeholder="/var/lib/mysql/data" value="/opt"/>
-                          </div>
-                          <div class="form-group col-md-4">
-                              <label class="control-label">安装名 Name</label>
-                              <input maxlength="50" type="text" name="tomcat_name" required="required" class="form-control" placeholder="tomcat" value="tomcat"/>
                           </div>
 
                           <div class="form-group col-md-4">
                               <label class="control-label">Heap Memory(G)</label>
                               <input maxlength="50" type="text" name="tomcat_heapmemory" required="required" class="form-control" placeholder="2G" value="2G"/>
                           </div>
+                      </div>
+
+                      <div class="row Redis">
+                          <h4>Redis</h4>
                           <div class="form-group col-md-4">
-                              <label class="control-label">JMX Port(G)</label>
-                              <input maxlength="50" type="text" name="tomcat_jmxport" required="required" class="form-control" placeholder="6379" value="6379"/>
+                              <label class="control-label">版本 Version</label>
+                              <select name="redis_version" class="form-control">
+                                  <option value="3.2" selected>3.2+</option>
+                                  <option value="2.8" >2.8+</option>
+                                  <option value="Latest" >Latest</option>
+                              </select>
                           </div>
 
+                          <div class="form-group col-md-4">
+                              <label class="control-label">Max Memory(G)</label>
+                              <input maxlength="50" type="text" name="redis_maxmemory" required="required" class="form-control" placeholder="1G" value="2G"/>
+                          </div>
+
+
+                          <div class="form-group col-md-4">
+                              <label class="control-label">Memory Policy(G)</label>
+                              <select name="redis_version" class="form-control">
+                                  <option value="noeviction" selected>Noeviction</option>
+                                  <option value="volatile-lru" >Volatile-lru</option>
+                                  <option value="volatile-ttl" >volatile-ttl</option>
+                              </select>
+                          </div>
+                      </div>
+
+
+                      <div class="row PHP">
+                          <h4>PHP</h4>
+                          <div class="form-group col-md-4">
+                              <label class="control-label">版本 Version</label>
+                              <select name="php_version" class="form-control">
+                                  <option value="5.5" selected>5.5+</option>
+                                  <option value="5.6" >5.6+</option>
+                                  <option value="Latest" >Latest</option>
+                              </select>
+                          </div>
                       </div>
 
                       <div class="row backup">
@@ -526,6 +535,7 @@
                               <select name="backup_destination" class="form-control">
                                   <option value="S3" selected>S3</option>
                                   <option value="OSS">OSS</option>
+                                  <option value="SSH">SSH</option>
                               </select>
                           </div>
                           <div class="form-group col-md-8">
@@ -540,23 +550,19 @@
                           </div>
 
                           <div class="form-group col-md-6">
-                              <input maxlength="50" type="text" name="backup_folder1" required="required" class="form-control" placeholder="/etc" value="/etc" readonly/>
+                              <input maxlength="50" type="text" name="backup_folder1" required="required" class="form-control" placeholder="backup folder" value="-"/>
+                          </div>
+
+                           <div class="form-group col-md-6">
+                              <input maxlength="50" type="text" name="backup_folder2" required="required" class="form-control" placeholder="backup folder" value="-"/>
                           </div>
 
                           <div class="form-group col-md-6">
-                              <input maxlength="50" type="text" name="backup_folder2" required="required" class="form-control" placeholder="/var/spool/cron" value="/var/spool/cron" readonly/>
-                          </div>
-
-                          <div class="form-group col-md-6">
-                              <input maxlength="50" type="text" name="backup_folder3" required="required" class="form-control" placeholder="/opt/ncscripts" value="/opt/ncscripts" readonly/>
+                              <input maxlength="50" type="text" name="backup_folder3" required="required" class="form-control" placeholder="backup folder" value="-"/>
                           </div>
 
                            <div class="form-group col-md-6">
                               <input maxlength="50" type="text" name="backup_folder4" required="required" class="form-control" placeholder="backup folder" value="-"/>
-                          </div>
-
-                           <div class="form-group col-md-6">
-                              <input maxlength="50" type="text" name="backup_folder5" required="required" class="form-control" placeholder="backup folder" value="-"/>
                           </div>
 
                       </div>

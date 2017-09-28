@@ -107,11 +107,9 @@ $(document).ready(function () {
 
       if (isValid){
           if (nextStepWizard.attr("href") == "#step-3"){
-//            var services = $('input[name="services"]:checked').serialize().split("&");
               var services = $('input[type="checkbox"]:checked').serialize().split("&");
               var res = [];
-              var support = ["Nginx", "Apache", "Mysql", "Tomcat", "Haproxy"];
-//              var support = ["nginx", "apache", "mysql", "tomcat", "haproxy"];
+              var support = ["Nginx", "Apache", "Mysql", "Tomcat", "Haproxy", "Java", "Redis", "PHP"];
               $.each(services, function(index, value){
                  res.push(value.split("=")[1]);
                }
