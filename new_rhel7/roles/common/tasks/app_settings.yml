@@ -1,0 +1,11 @@
+---
+
+# Apply settings to built-in applications such as vim
+#
+
+- name: Ensure VIM backup is enabled
+  replace:
+    dest=/etc/vimrc
+    regexp='^\"set backup(.*)$'
+    replace='set backup\1'
+    backup=yes

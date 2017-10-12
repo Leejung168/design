@@ -1,0 +1,77 @@
+---
+#
+# Catch all handlers
+#
+# TODO: split by individual files if it grows out of control
+
+# OpenSSH
+- name: Restart ssh
+  service:
+    name=sshd
+    state=restarted
+
+# NTPD
+- name: Enable ntp
+  service:
+    name=ntpd
+    enabled=yes
+
+- name: Restart ntp
+  service:
+    name=ntpd
+    state=restarted
+
+# Postfix / Sendmail
+- name: Enable sendmail
+  service:
+    name=sendmail
+    enabled=yes
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version != "7"
+
+- name: Restart sendmail
+  service:
+    name=sendmail
+    state=restarted
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version != "7"
+
+#######
+
+- name: Start nslcd
+  service:
+    name=nslcd
+    state=started
+
+- name: Start sshd-nc
+  service:
+    name=sshd-nc
+    state=started
+
+- name: Start atop
+  service:
+    name=atop
+    state=started
+
+- name: Disable nscd
+  service:
+    name=nscd
+    enabled=no
+    state=stopped
+
+- name: Enable sshd-nc
+  service:
+    name=sshd-nc
+    enabled=yes
+
+- name: Enable nslcd
+  service:
+    name=nslcd
+    enabled=yes
+
+
+# rsyslog
+- name: Restart rsyslog
+  service:
+    name=rsyslog
+    state=restarted

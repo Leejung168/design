@@ -1,0 +1,119 @@
+#! /bin/bash
+# chkconfig: - 86 14
+# Startup script for Tomcat Servlet Engine
+#
+# description: script to launch Tomcat on boot
+#
+. /etc/sysconfig/tomcat
+
+RETVAL=0
+
+# start, debug, stop, and status functions
+start() {
+    # Start Tomcat in normal mode
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+    if [ $SHUTDOWN_PORT -ne 0 ]; then
+        echo "[ WARN ]:Tomcat is already started"
+    else
+        echo "Starting tomcat..."
+        chown -R $TOMCAT_USER:$TOMCAT_USER $CATALINA_HOME
+        chown -R $TOMCAT_USER:$TOMCAT_USER $CATALINA_HOME
+        su  $TOMCAT_USER -c "$CATALINA_HOME/bin/initiate.sh"
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        while [ $SHUTDOWN_PORT -eq 0 ]; do
+            sleep 1
+            SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        done    
+        RETVAL=$?
+        echo "Tomcat started: [ NORMAL ]"
+        [ $RETVAL=0 ] && touch /var/lock/subsys/tomcat
+    fi
+}
+
+debug() {
+    # Start Tomcat in debug mode
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+    if [ $SHUTDOWN_PORT -ne 0 ]; then
+        echo "[ WARN ] Tomcat is already started"
+    else
+        echo "Starting tomcat in debug mode..."
+        chown -R $TOMCAT_USER:$TOMCAT_USER $CATALINA_HOME
+        chown -R $TOMCAT_USER:$TOMCAT_USER $CATALINA_HOME
+        su  $TOMCAT_USER -c "$CATALINA_HOME/bin/catalina.sh jpda start"
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        while [ $SHUTDOWN_PORT -eq 0 ]; do
+            sleep 1
+            SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        done    
+        RETVAL=$?
+        echo "Tomcat started: [ DEBUG ]"
+        [ $RETVAL=0 ] && touch /var/lock/subsys/tomcat
+    fi
+}
+
+stop() {
+    # save the export from sysconfig/tomcat
+    JAVA_OPTS_SAVE="$JAVA_OPTS"
+    export JAVA_OPTS="$STOP_OPTS"
+
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+    if [ $SHUTDOWN_PORT -eq 0 ]; then
+        echo "[ WARN ] Tomcat is not running"
+    else
+        echo "Stopping tomcat..."
+        su  $TOMCAT_USER -c "$CATALINA_HOME/bin/shutdown.sh"
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        while [ $SHUTDOWN_PORT -ne 0 ]; do
+            sleep 1
+            SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+        done
+    RETVAL=$?
+        echo "Tomcat stopped"
+        [ $RETVAL=0 ] && rm -f /var/lock/subsys/tomcat $CATALINA_HOME/bin/tomcat.pid
+    fi
+    # Reset default javaopts
+    export JAVA_OPTS="$JAVA_OPTS_SAVE"
+}
+
+status() {
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep 8005|wc -l`
+    if [ $SHUTDOWN_PORT -eq 0 ]; then
+        echo "Tomcat stopped"
+    else
+        MODE="[ NORMAL ]"
+        JPDA_PORT=`netstat -vatn|grep LISTEN|grep 8000|wc -l`
+        if [ $JPDA_PORT -ne 0 ]; then
+            MODE="[ DEBUG ]"
+        fi
+    echo "Tomcat running in $MODE mode"
+    fi
+}
+
+case "$1" in
+  start)
+        start
+       ;;
+  debug)
+        debug
+       ;;
+  stop)
+        stop
+       ;;
+  restart)
+        stop
+        sleep 2
+        start
+       ;;
+  redebug)
+        stop
+        debug
+       ;;
+  status)
+      status
+   ;;
+  *)
+    echo "Usage: $0 {start|debug|stop|restart|redebug|status}"
+    exit 1
+esac
+
+exit $RETVAL

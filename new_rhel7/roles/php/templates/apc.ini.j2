@@ -1,0 +1,97 @@
+;[APC]
+; Enable apc extension module
+extension = apc.so
+
+; Options for the apc module
+; This can be set to 0 to disable APC. 
+apc.enabled=1
+
+; Setting this enables APC for the CLI version of PHP (Mostly for testing and debugging).
+apc.enable_cli=0
+
+; The number of shared memory segments to allocate for the compiler cache. 
+apc.shm_segments=1
+
+; The size of each shared memory segment in MB. (add unit)
+apc.shm_size={{ php_apc_shm_size | default('128M') }}
+
+; A "hint" about the number of distinct source files that will be included or 
+; requested on your web server. Set to zero or omit if you're not sure;
+apc.num_files_hint=2048
+
+; Just like num_files_hint, a "hint" about the number of distinct user cache
+; variables to store.  Set to zero or omit if you're not sure;
+apc.user_entries_hint=4096
+
+; The number of seconds a cache entry is allowed to idle in a slot in case this
+; cache entry slot is needed by another entry.
+apc.ttl={{ php_apc_ttl | default(14400) }}
+
+; The number of seconds a user cache entry is allowed to idle in a slot in case
+; this cache entry slot is needed by another entry.
+apc.user_ttl={{ php_apc_user_ttl | default(7200) }}
+
+; The number of seconds that a cache entry may remain on the garbage-collection list. 
+apc.gc_ttl=3600
+
+; On by default, but can be set to off and used in conjunction with positive
+; apc.filters so that files are only cached if matched by a positive filter.
+apc.cache_by_default=1
+
+; A comma-separated list of POSIX extended regular expressions.
+apc.filters
+
+; The mktemp-style file_mask to pass to the mmap module 
+apc.mmap_file_mask=/tmp/apc.XXXXXX
+
+; This file_update_protection setting puts a delay on caching brand new files.
+apc.file_update_protection=2
+
+; Prevents large files from being cached
+apc.max_file_size={{ php_apc_max_file_size | default('2M') }}
+
+; Whether to stat the main script file and the fullpath includes.
+apc.stat=1
+apc.stat_ctime=0
+
+; With write_lock enabled, only one process at a time will try to compile an 
+; uncached script while the other processes will run uncached
+apc.write_lock=1
+
+; Logs any scripts that were automatically excluded from being cached due to early/late binding issues.
+apc.report_autofilter=0
+
+; Optimize include_once and require_once calls and avoid the expensive system calls used.
+apc.include_once_override=0
+
+; RFC1867 File Upload Progress hook handler
+apc.rfc1867=0
+apc.rfc1867_prefix=upload_
+apc.rfc1867_name=APC_UPLOAD_PROGRESS
+apc.rfc1867_freq=0
+
+; On very busy servers whenever you start the server or modify files you can create a race of many processes all
+; trying to cache the same file at the same time. This option sets the percentage of processes that will skip 
+; trying to cache an uncached file. Or think of it as the probability of a single process to skip caching. For 
+; example, setting apc.slam_defense to 75 would mean that there is a 75% chance that the process will not cache 
+; an uncached file. So, the higher the setting the greater the defense against cache slams. Setting this to 0 
+; disables this feature.
+; Deprecated by apc.write_lock
+apc.slam_defense=0
+
+; Optionally, set a path to the directory that APC will load cache data at startup.
+apc.preload_path
+
+; Enables lazy loading for functions and classes - 0 to disable.
+apc.lazy_functions=0
+apc.lazy_classes=0
+
+; Records a md5 hash of files - 0 to disable.
+apc.file_md5=0
+
+; If on, then relative paths are canonicalized in no-stat mode. If set, then files included via stream wrappers 
+; can not be cached as realpath() does not support stream wrappers.
+apc.canonicalize=1
+
+; not documented
+apc.coredump_unmap=0

@@ -1,0 +1,29 @@
+---
+- name: Ensure sendmail is installed
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - sendmail
+    - sendmail-cf
+  notify:
+    - Enable sendmail
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version != "7" 
+
+- name: Ensure mails are sent from the host
+  lineinfile: 
+    dest=/etc/mail/sendmail.cf
+    line='Dj{{ inventory_hostname }}'
+    state=present
+  notify:
+    - Restart sendmail
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version != "7" 
+
+- name: Ensure sendmail is running
+  service:
+    name=sendmail
+    state=started
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version != "7" 

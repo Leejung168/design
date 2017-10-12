@@ -1,0 +1,40 @@
+---
+httpd_lvm_lv_size: 10240
+httpd_lvm_vg_name: domuvg
+httpd_lvm_lv_name: www
+httpd_lvm_lv_fstype: xfs
+httpd_lvm_lv_mountpoint: /var/www
+httpd_lvm_lv_mountpoint_options: noexec
+
+httpd_datadir: sites
+
+httpd_worker_connections: '1024'
+httpd_worker_count: '4'
+
+httpd_bind_ip_address: 0.0.0.0
+httpd_listening_port: '80'
+
+httpd_ssl_bind_ip_address: 0.0.0.0
+httpd_ssl_certificate: Provided_by_customer
+httpd_ssl_listening_port: '443'
+
+httpd_keepalive: 'On'
+httpd_keepalive_requests: '100'
+httpd_keepalive_timeout: '60'
+httpd_logrotate: '30'
+
+httpd_maxclients: '30'
+httpd_maxrequestsperchild: '4000'
+httpd_maxspareservers: '30'
+httpd_minspareservers: '10'
+httpd_serverlimit: '30'
+httpd_startservers: '10'
+
+httpd_expire_headers: Enabled
+httpd_expire_values: 30d
+
+httpd_gzip_compression: "on"
+httpd_gzip_types: text/plain text/css application/x-javascript text/xml application/xml
+  application/xml+rss text/javascript image/x-icon
+
+httpd_domains: null

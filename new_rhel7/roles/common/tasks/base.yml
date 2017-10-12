@@ -1,0 +1,92 @@
+---
+# 
+# This list of tasks is meant to perform the base install to ensure the access
+# to the server
+#
+# Initial access: 
+#  - root
+#  - SSH port 22
+#
+
+
+- name: Ensure kernel will not be updated
+  lineinfile:
+    dest=/etc/yum.conf
+    state=present
+    regexp='^exclude=(.*)kernel\*'
+    line='exclude=kernel*'
+    insertafter='\[main\]'
+    owner=root
+    group=root
+    mode=0644
+
+- name: Ensure some yum plugins are present (rhel6+/amzn)
+  yum:
+    name=yum-plugin-fastestmirror
+    state=present
+  when:
+    ansible_distribution == "Amazon" or (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6)
+
+- name: Ensure some yum plugins are present (rhel5)
+  yum:
+    name=yum-fastestmirror
+    state=present
+  when:
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 5
+
+- name: Update the RPMs (Redhat - base only)
+  yum:
+    name=*
+    enablerepo=base,updates
+    disablerepo=*
+    state=latest
+  when:
+    ansible_os_family == "RedHat" and ansible_distribution != "Amazon"
+
+- name: Update the RPMs (Amazon - base only)
+  yum:
+    name=*
+    enablerepo=amzn-main,amzn-updates
+    disablerepo=*
+    state=latest
+  when:
+    ansible_os_family == "RedHat" and ansible_distribution == "Amazon"
+
+
+- name: Stop and Disabled FirewallD on Centos 7
+  service:
+    name: firewalld
+    state: stopped
+    enabled: False
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+# 20150514 - SS - Flush iptables rules, as CentOS 6.6 has REJECT policy on INPUT
+- name: Flush the default iptables rules
+  command: /sbin/iptables -F
+  when:
+    ansible_distribution == "Amazon" or (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6)
+
+- name: Installing iptables service in Centos 7
+  yum:
+    name=iptables-services
+    state=installed
+    #enabled=True
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Flush the default iptables rules in CentOS 7 
+  command: /usr/sbin/iptables -F
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Save flushed iptables rules
+  command: /sbin/service iptables save
+  when:
+    ansible_distribution == "Amazon" or (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6)
+
+- name: Save flushed iptables rules on CentOS 7
+  command: /usr/sbin/service iptables save
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+

@@ -1,0 +1,20 @@
+---
+- name: Check if script_firewall is installed
+  stat: path=/opt/ncscripts/script_firewall.sh
+  register: script_firewall_installed
+
+- name: Get script_firewall
+  git:
+    repo=https://nc-git-ansible:{{ git_ansible_pass }}@gitlab.service.chinanetcloud.com/nc-scripts/script_firewall.git
+    dest=/root/script_firewall
+    accept_hostkey=yes
+    force=yes
+  when: script_firewall_installed.stat.exists == false
+
+- name: Place script_firewall
+  command: cp /root/script_firewall/script_firewall.sh /opt/ncscripts/
+  when: script_firewall_installed.stat.exists == false
+
+- name: Delete script_firewall from root
+  file: path=/root/script_firewall state=absent
+  when: script_firewall_installed.stat.exists == false

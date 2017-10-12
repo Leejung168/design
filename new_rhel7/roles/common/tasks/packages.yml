@@ -1,0 +1,150 @@
+---
+# Manage the installed packages
+#
+# CentOS - need to add the when statement
+
+- name: Ensure the gpg package are present(Centos5)
+  yum:
+    name=gnupg
+    state=present
+  when: 
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int < 6
+
+- name: Ensure the gpg package are present(Centos6)
+  yum:
+    name=gnupg2
+    state=present
+  when: 
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+
+# RPM GPG key
+# Details:
+#    http://docs.ansible.com/rpm_key_module.html
+- name: Ensure CNC GPG key is known
+  rpm_key:
+    state=present
+    key=http://repo.service.chinanetcloud.com/repo/rpm-gpg/RPM-GPG-KEY-CNC
+  when: 
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int <= 6
+
+# Handle CNC repo
+# Details:
+#    http://docs.ansible.com/copy_module.html
+- name: Ensure CNC repository(el6 & amazon)
+  yum:
+    name=http://repo.service.chinanetcloud.com/yum/el6/base/x86_64/nc-repo-1.0.0-1.el6.noarch.rpm
+    state=present
+  when:
+    ansible_distribution == "Amazon" or (ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6)
+
+- name: Ensure CNC repository(el7)
+  yum:
+    name=http://repo.service.chinanetcloud.com/yum/el7/base/x86_64/nc-repo-1.0.0-1.el7.noarch.rpm
+    state=present
+  when:
+    #ansible_distribution != "CentOS" and ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 7
+
+- name: Ensure CNC CentOS7 repository(el7)
+  yum:
+    name=epel-release
+    state=present
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Ensure EPEL repos are present
+  yum:
+    name=epel-release
+    state=present
+  when:
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+
+# Below Enable epel repo on Amazon instances as not enabled upon install.
+- name: Ensure EPEL repos enabled
+  ini_file: dest=/etc/yum.repos.d/epel.repo
+            section=epel
+            option=enabled
+            value=1
+  when:
+    ansible_distribution == "Amazon"
+
+# Set YUM timeout to 300 - to prevent timeouts to MongoDB and Percona Repos
+- name: Ensure yum timeout is set correctly
+  lineinfile:
+    dest=/etc/yum.conf
+    state=present
+    regexp='^timeout='
+    line='timeout=300'
+
+- name: Ensure nc-zabbix-agent is installed
+  yum:
+    name={{ item }}
+    state=present
+    enablerepo=cnc
+  with_items:
+    - nc-zabbix-agent
+    - nc-zabbix-scripts
+
+- name: Setup nc-zabbix hostname
+  replace:
+    dest=/etc/nc_zabbix/nc_zabbix_agentd.conf
+    regexp='# Hostname='
+    replace="Hostname={{inventory_hostname}}"
+    backup=yes
+
+- name: Ensure all the packages are present
+  yum:
+    name={{ item }}
+    state=present
+  with_items: 
+    "{{ packages }}"
+
+
+# Make services auto boot or disable auto boot
+- name: Set sendmail service start on boot
+  service: 
+    name=sendmail
+    enabled=yes
+  when:
+    ansible_distribution != "CentOS" and ansible_distribution_major_version != "7"
+
+- name: Set ntpd service start on boot
+  service: 
+    name=ntpd
+    enabled=yes
+  when:
+    ansible_distribution != "CentOS" and ansible_distribution_major_version != "7"
+- name: Set rsyslog service start on boot
+  service: 
+    name=rsyslog
+    enabled=yes
+- name: Set atop service start on boot
+  service: 
+    name=atop
+    enabled=yes
+  notify:
+     - Start atop
+
+# PSTREE for Centos-7
+- name: Ensure pstree is installed
+  yum:
+    name=psmisc
+    state=present
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+# wget for Centos-7
+- name: Ensure wget is installed
+  yum:
+    name=wget
+    state=present
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+# wget for Centos-7
+- name: Ensure lsof is installed
+  yum:
+    name=lsof
+    state=present
+  when:
+    ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"

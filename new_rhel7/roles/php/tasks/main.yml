@@ -1,0 +1,47 @@
+---
+
+# Variable setup
+#- include_vars: defaults.yml
+
+# Cheat and define php template version
+- name: Register php version
+  set_fact:
+    php_template_version='5.5'
+  delegate_to: 127.0.0.1
+  when: php_version == '5.5'
+
+- name: Register php version
+  set_fact:
+    php_template_version='5.6'
+  delegate_to: 127.0.0.1
+  when: php_version == '5.6'
+
+
+# catch and initial php user/group
+- name: Register php_fpm_process_group
+  set_fact:
+    php_fpm_process_group == 'nginx'
+  delegate_to: 127.0.0.1
+  when: php_fpm_process_group is not defined
+
+- name: Register php_fpm_process_user
+  set_fact:
+    php_fpm_process_user == 'nginx'
+  delegate_to: 127.0.0.1
+  when: php_fpm_process_user is not defined
+
+- name: Ensure automake are installed
+  yum:
+    name=automake
+    state=present
+
+# setup/install tasks
+- include: setup-redhat.yml
+  when: ansible_os_family == "RedHat" and ansible_distribution != "Amazon"
+
+- include: setup-aws.yml
+  when: ansible_distribution == "Amazon"
+
+# configure php
+- include: configure.yml
+

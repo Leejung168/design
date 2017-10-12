@@ -1,0 +1,36 @@
+---
+- name: Ensure JDK is installed(Oracle)
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - http://repo.service.chinanetcloud.com/repo/el6/base/x86_64/jdk-6u45-linux-amd64.rpm
+  when: java_version == 'Oracle 1.6'
+
+- name: Ensure JDK is installed(Oracle)
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - http://repo.service.chinanetcloud.com/repo/el6/base/x86_64/jdk-7u60-linux-x64.rpm
+  when: java_version == 'Oracle 1.7'
+
+- name: Ensure JDK is installed(Oracle)
+  yum:
+    name={{ item }}
+    state=present
+  with_items:
+    - http://repo.service.chinanetcloud.com/repo/el6/base/x86_64/jdk-8u92-linux-x64.rpm
+  when: java_version == 'Oracle 1.8'
+
+- name: Update alternatives for java commands
+  shell:
+    alternatives --install /usr/bin/{{ item | basename }} {{ item | basename }} {{ item }} 200000 && alternatives --auto {{ item | basename }}
+  with_items:
+    - /usr/java/latest/jre/bin/java
+    - /usr/java/latest/jre/bin/javaws
+
+- name: Ensure JAVA_HOME
+  lineinfile:
+    line='export JAVA_HOME=/usr/java/latest'
+    dest=/etc/profile

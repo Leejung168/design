@@ -1,0 +1,9 @@
+gpg_key: koflTQ8ZrTP1eOYCwb7DEBpaUaQJtIbl
+server_enable_lvm: true
+users:
+- {password: $1$i.1vm0Qc$c6IDWAFPsxEB/rHo5HjL0/, sudo: 'yes', username: xiaolie}
+vgs:
+- {device: /dev/sdb, name: domuvg}
+zabbix_group: lz
+zabbix_proxy: srv-nc-bj-zabbixproxy1
+zabbix_template: [NC_Template_Linux, NC_Template-Discovery_IOStat, NC_Template_VMstat]

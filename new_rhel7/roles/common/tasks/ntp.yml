@@ -1,0 +1,28 @@
+---
+#
+# Handle ntp service
+#
+
+- name: Ensure ntp is installed
+  yum:
+    name=ntp
+    state=present
+  notify:
+    - Enable ntp
+  when:
+    ansible_distribution != "CentOS" and ansible_distribution_major_version != "7"
+
+- name: Ensure ntp configuration
+  copy:
+    src=ntp.conf
+    dest=/etc/ntp.conf
+    owner=root
+    group=root
+    mode=0644
+  notify:
+     - Restart ntp
+
+- name: Ensure ntp is running
+  service:
+    name=ntpd
+    state=started

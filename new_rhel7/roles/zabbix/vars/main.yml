@@ -1,0 +1,7 @@
+---
+server_url: https://zabbix-qa.service.chinanetcloud.com
+login_user: lambert
+login_password: lambertest123
+server_public_ip: 0.0.0.0
+zabbix_port: 10050
+zabbix_group: .Setup Servers

@@ -36,7 +36,8 @@ class ServerGroup(Base):
     sdisk = Column(String(16), nullable=False)
     ssystem = Column(String(16), nullable=False)
     splatform = Column(String(16), nullable=False)
-    sservices = Column(String(1024), nullable=False)
+    sservices = Column(String(10240), nullable=False)
+    sdynamicinfo = Column(String(10240))
     ownerid = Column(Integer, ForeignKey('customer_group.id'))
     owner = relationship(CustomerGroup)
 
@@ -49,6 +50,7 @@ class PasswordGroup(Base):
     root = Column(String(64), nullable=False)
     ncadmin = Column(String(64), nullable=False)
     gpg_key = Column(String(64), nullable=False)
+    mysql_root = Column(String(64), nullable=False)
     ncdba = Column(String(64), nullable=False)
     nccheckdb = Column(String(64))
     ncbackupdb = Column(String(64))

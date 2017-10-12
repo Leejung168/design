@@ -29,6 +29,7 @@ from ansible.plugins.callback import CallbackBase
 r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 
 
+
 # NOTE: in Ansible 1.2 or later general logging is available without
 # this plugin, just set ANSIBLE_LOG_PATH as an environment variable
 # or log_path in the DEFAULTS section of your ansible configuration

@@ -1,0 +1,28 @@
+---
+# Download CNC script files
+- name: Ensure /opt/ncscripts folder exist
+  file: 
+    path=/opt/ncscripts 
+    state=directory
+
+- name: Install NetCloud helper scripts
+  yum:
+    name=nc-scripts-access
+    state=latest
+  when:
+    ansible_os_family == "RedHat"
+
+- name: Get nc_qa.sh
+  git:
+    repo=https://nc-git-ansible:{{ git_ansible_pass }}@gitlab.service.chinanetcloud.com/automation/nc_qa.git
+    dest=/root/nc_qa
+    accept_hostkey=yes
+    force=yes
+
+- name: Place nc_qa.sh
+  command: cp /root/nc_qa/nc_qa.sh /root/
+
+- name: Cleanup nc_qa repository
+  file: path=/root/nc_qa state=absent
+
+

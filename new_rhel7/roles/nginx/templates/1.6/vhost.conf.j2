@@ -1,0 +1,86 @@
+
+upstream {{ item.domain }}_php_workers {
+    # Should rely on the ansible var: { { php_fpm_listen_address } }
+    # server unix:/tmp/php-fpm.sock;
+    server 127.0.0.1:9000;
+}
+
+server {
+    listen {% if item.bind %}{{ item.bind }}:{% endif %}{{ item.port | default('80') }};
+    server_name {{ item.domain | default('localhost') }};
+  
+    access_log /var/log/nginx/{{ item.domain | default('localhost') }}/{{ item.domain | default('localhost') }}-access.log timing;
+    error_log /var/log/nginx/{{ item.domain | default('localhost') }}/{{ item.domain | default('localhost') }}-error.log;
+
+
+    rewrite_log off;
+  
+    index index.php index.html index.htm;
+    root {{ fact_nginx_datadir }}/sites/{{ item.domain | default ('localhost') }}/;
+  
+    # Change 500 error page to something a little more pretty
+    error_page   502 503 504  /50x.html;
+    location = /50x.html {
+      root /usr/share/nginx/html/;
+    }
+
+    # Change 404 error page to something a little more pretty
+    error_page   404  /404.html;
+    location = /404.html {
+      root /usr/share/nginx/html/;
+    }
+
+    # php pages handling
+    #location ~ \.php$ {
+    #    try_files $uri      = 404;
+    #    fastcgi_pass              {{ item.domain }}_php_workers;
+    #    fastcgi_buffer_size       128k;
+    #    fastcgi_buffers           64 128k;
+    #    fastcgi_intercept_errors  on;
+    #    fastcgi_param             SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    #    include                   fastcgi_params;
+  
+        # PHP tuning.
+        # tcp_nopush can add milliseconds to latency when pushing from a cache.
+        #tcp_nopush          off;
+        #keepalive_requests  0;
+    #}
+
+    # Block access to hidden files
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    #location ~ \.jsp$ {
+    #    proxy_pass        http://127.0.0.1:8080;
+    #    proxy_set_header  X-Real-IP  $remote_addr;
+    #    proxy_set_header  Host $http_host;
+    #    #proxy_http_version 1.1;
+        #proxy_set_header Upgrade $http_upgrade;
+        #proxy_set_header Connection $connection_upgrade;
+    #    proxy_set_header   X-NginX-Proxy    true;
+    #    proxy_redirect     off;
+    #    proxy_read_timeout 86400;
+    #    proxy_buffering off;
+    #    proxy_ignore_client_abort off;
+    #}
+
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires {{ nginx_expire_values }};
+    }
+}
+

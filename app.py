@@ -9,11 +9,17 @@ from Crypto.Cipher import XOR
 import base64, json
 
 from sender import publish
+from translate import encode, services_check
+
+from get_info import server_info
 
 import redis
 redis_session0 = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
 redis_session1 = redis.StrictRedis(host='127.0.0.1', port=6379, db=1)
 
+
+# Store server's dynamic data
+redis_session2 = redis.StrictRedis(host='127.0.0.1', port=6379, db=2)
 app = Flask(__name__)
 
 
@@ -72,10 +78,18 @@ def servers():
     well = []
     # Obtain customer name from request header.
     name = request.args.get("name")
+
     try:
+
         ownerid = session.query(CustomerGroup).filter_by(name=name).one().id
         servers = session.query(ServerGroup).filter_by(ownerid=ownerid).all()
         for s in servers:
+            checkstatus = redis_session1.get(s.sservername)
+            if checkstatus == "OKay" or checkstatus == "InProgress":
+                status = 1
+            else:
+                status = 0
+
             single = {
                 "sservername": s.sservername,
                 "sip": s.sip,
@@ -83,6 +97,7 @@ def servers():
                 "sfunction": s.sfunction,
                 "ssystem": s.ssystem,
                 "splatform": s.splatform,
+                "status": status,
             }
             well.append(single)
             single = {}
@@ -94,6 +109,7 @@ def servers():
             "sgroup": "-",
             "ssystem": "-",
             "splatform": "-",
+            "status": 0,
         }
         well.append(single)
 
@@ -112,18 +128,49 @@ def s_detailed():
     server = request.args.get("server")
     try:
         info = session.query(ServerGroup).filter_by(sservername=server).one()
+        services = json.loads(info.sservices)
+        install = services_check(services)
+
+        dynamic = json.loads(redis_session2.get(server))
+
+        print dynamic
+
+        backup_dirs = []
+        for i in [1, 2, 3, 4]:
+            backup_dir = "backup_folder"+str(i)
+            if encode(services[backup_dir]) != "-":
+                backup_dirs.append(encode(services[backup_dir]))
+
         single = {
             "sname": info.sservername,
             "sip": info.sip,
-            "sport": info.sport
+            "sport": info.sport,
+            "slvm": info.slvm,
+            "sdisk": info.sdisk,
+            "sbackup_dest": services["backup_destination"],
+            "szabbix_proxy": services["zabbix_proxy"],
+            "sbackup_dirs": backup_dirs,
+            "sservices": install,
+            "scpu": dynamic["cpu"],
+            "smem": dynamic["mem"],
+            "spri_ip": dynamic["spri_ip"],
         }
     except:
         single = {
             "sname": "query-database-error",
             "sip": "0.0.0.0",
-            "sport": "0"
+            "sport": "0",
+            "slvm": "0",
+            "sdisk": "0",
+            "sbackup_dest": "0",
+            "szabbix_proxy": "0",
+            "sbackup_dirs": "-",
+            "sservices": "-",
+            "scpu": "-",
+            "smem": "-",
+            "spri_ip": "-"
         }
-
+    print single
     return render_template("detailed_info.html", info=single)
 
 
@@ -167,7 +214,6 @@ def pw():
 @app.route('/plus_server', methods=["POST"])
 def plus_server():
     data = request.form.to_dict()
-
     sservername = data.pop("server_name").encode("utf-8")
     susername = data.pop("server_username").encode("utf-8")
     spassword = data.pop("server_password").encode("utf-8")
@@ -182,6 +228,7 @@ def plus_server():
     sservices = json.dumps(data)
 
     try:
+
         session.query(ServerGroup).filter_by(sservername=sservername).one()
         existed = {"Status": "Error", "Reason": "Server {0} Already Existed".format(sservername)}
         return render_template("error.html", messages=existed), 499
@@ -205,6 +252,7 @@ def plus_server():
             )
             session.add(server)
             session.commit()
+            session.close()
             return redirect("http://localhost:5000", code=302)
         except:
             errors = {"Status": "500", "info": "Failed to add server {0}".format(sservername), "Reason": "Internal Error"}
@@ -228,7 +276,6 @@ def s_plus():
     ssystem = data.pop("server_system").encode("utf-8")
     splatform = data.pop("server_platform").encode("utf-8")
     sservices = json.dumps(data)
-
     try:
         session.query(ServerGroup).filter_by(sservername=sservername).one()
         existed = {"Status": "Error", "Reason": "Server {0} Already Existed".format(sservername)}
@@ -277,6 +324,7 @@ def plus_customer():
             customer = CustomerGroup(name=customer_name, contact1=contact1, phone1=phone1, contact2=contact2, phone2=phone2)
             session.add(customer)
             session.commit()
+            session.close()
             return redirect("http://localhost:5000", code=302)
         except:
             errors = {"Status": "500", "info": "Failed to add Customer {0}".format(customer_name), "Reason": "Internal Error"}
@@ -286,19 +334,38 @@ def plus_customer():
 @app.route('/s_delete', methods=['POST'])
 def s_delete():
     servername = request.form.get('server_delete')
-    ServerToDelete = session.query(ServerGroup).filter_by(sservername=servername).one()
+    server_delete = session.query(ServerGroup).filter_by(sservername=servername).one()
+    server_password_delete = session.query(PasswordGroup).filter_by(sid=server_delete.id).one()
     try:
-        session.delete(ServerToDelete)
+        try:
+            session.delete(server_password_delete)
+            session.commit()
+        except:
+            pass
+
+        session.delete(server_delete)
         session.commit()
+        session.close()
     except Exception, e:
         errors = {"Status": "500", "info": "Failed to delete server {0}".format(servername), "Reason": "Internal Error->Database"}
         return render_template("error.html", messages=errors), 500
 
-    return jsonify(ServerToDelete.sgroup)
+    return jsonify(server_delete.sgroup)
 
 @app.route('/s_launch', methods=['POST'])
 def s_launch():
+    session = DBSession()
+
     server_name = request.form.get('server_name')
+
+    # Obtain some server informations and store to database
+    server = session.query(ServerGroup).filter_by(sservername=server_name).one()
+    try:
+        dynamic_info = server_info(server.sip, int(server.sport), server.susername, server.spassword)
+        server.sdynamicinfo = dynamic_info
+        redis_session2.set(server_name, dynamic_info)
+    except:
+        print "Can't connect to {0}".format(server_name)
 
     # Check the server if exist in redis
     CheckExist = redis_session1.get(server_name)
@@ -306,7 +373,6 @@ def s_launch():
         if CheckExist == "FAILED" or CheckExist == "FAILED_DIRECTLY":
             redis_session1.set(server_name, "InProgress")
         if CheckExist == "OKay":
-
             # TODO, Debug, so didn't return directly when it was successful.
             redis_session1.set(server_name, "InProgress")
 
@@ -315,8 +381,7 @@ def s_launch():
         redis_session1.set(server_name, "InProgress")
 
     publish(server_name)
-
-    return jsonify("Okay")
+    return jsonify(server.sgroup)
 
 
 # Show task status

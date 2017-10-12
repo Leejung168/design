@@ -41,6 +41,7 @@ $('.launch-button').on('click', function() {
             $this.button('reset');
             var customer_name = msg["responseJSON"];
             console.log(customer_name);
+            $("#page-wrapper").load('servers?name=' + customer_name);
            },
     })
   });

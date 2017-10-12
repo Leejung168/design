@@ -1,0 +1,105 @@
+---
+# Define LVM Info.
+server_enable_lvm: true
+
+vgs:
+  - name: domuvg
+    device: /dev/sdb
+
+
+# Define backends as array of backend objects
+haproxy_servers:
+      - name: srv-example-web1_80
+        host: 192.168.1.1
+        port: 80
+        maxconn: 2000
+      - name: srv-example-web2_80
+        host: 192.168.1.2
+        port: 80
+        maxconn: 2000
+
+
+# Define Apache variables
+apache_version: 2.4
+httpd_vhosts:
+  - aliases: www.lz.com
+    bind: 0.0.0.0
+    domain: lz.com
+    port: '80'
+
+
+# Define Nginx variables
+nginx_version: 1.6
+nginx_vhosts:
+  - domain: www.lz.com
+    port: 80
+    bind: 0.0.0.0
+
+
+# Define Redis variables
+redis_version: '3.2'
+redis_maxmemory: '1g'
+maxmemory_policy: 'noeviction'
+
+
+# Define Mysql variables
+mysql_version: 'Percona 5.6'
+mysql_function: Master
+mysql_innodb_buffer_pool_size: 256M
+backup_backup_framework: netcloud_script
+database_mysql_backup: Yes
+mysql_root_pass: o&aNJPR~kgeW
+mysql_ncbackupdb_pass: o&aNJPR~kgeW
+mysql_nccheckdb_pass: o&aNJPR~kgeW
+mysql_ncdba_pass: o&aNJPR~kgeW
+
+
+# Define Java variables
+java_version: Oracle 1.7
+
+
+# Define Tomcat variables
+tomcat_version: 'Tomcat 7'
+tomcat_heap_size: 1792m
+
+
+# Define PHP variables
+php_version: '5.6'
+php_ext:
+  - php-pdo
+php_pecl_ext:
+  - apc
+
+
+# Define Backup variables
+backup_destination: 'OSS'
+aliyun_oss_domain: 'oss.aliyuncs.com'
+aliyun_bucket_name: 'chinanetcloud'
+aliyun_access_key: '64aCbXu7ldfgdrqwyba9dILQ1cuwcY2ftnFwiQ=='
+aliyun_access_id: '82CtmIDgiafVW6zb3sqJpa7X4L9tk2/D'
+
+backup_dir1:
+
+
+#Define Zabbix Template
+zabbix_template: ['NC_Template_Linux', 'NC_Template-Discovery_IOStat']
+zabbix_group: .Setup Servers
+
+# Define Users
+
+users:
+  - username: lambert1
+    password: '$1$7WsRGHqF$dFyKdKASY6hX2XhKSYSyq1'
+    sudo: 'yes'
+
+  - username: lambert2
+    password: '$1$D85UxKIb$TKLr7I/Ci4sRICSkRZ4zf/'
+    sudo: 'yes'
+
+  - username: lambert3
+    password: '$1$D85UxKIb$TKLr7I/Ci4sRICSkRZ4zf/'
+    sudo: 'yes'
+
+  - username: lambert4
+    password: '$1$D85UxKIb$TKLr7I/Ci4sRICSkRZ4zf/'
+    sudo: 'yes'

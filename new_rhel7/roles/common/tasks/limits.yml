@@ -1,0 +1,26 @@
+---
+#
+# Apply the limits to the linux system
+#
+
+# Limits Tunning
+- name: Add ulimit into /etc/init.d/functions 
+  lineinfile: 
+    dest=/etc/init.d/functions
+    insertafter='^export PATH'
+    line='ulimit -n 65536'
+    state=present
+
+- name: Change open file number for root
+  lineinfile: 
+    dest=/etc/security/limits.conf
+    line='{{ item[0] }} {{ item[1] }} nofile 65536'
+    state=present
+  with_nested:
+    - [ 'root', '*' ]
+    - [ 'soft', 'hard' ]
+
+- name: Add ttyS0 to securetty file
+  lineinfile: 
+    dest=/etc/securetty
+    line="ttyS0"

@@ -1,0 +1,26 @@
+---
+nginx_lvm_lv_size: 10240
+nginx_lvm_vg_name: domuvg
+nginx_lvm_lv_name: www
+nginx_lvm_lv_fstype: xfs
+nginx_lvm_lv_mountpoint: /var/www
+nginx_lvm_lv_mountpoint_options: exec
+
+nginx_worker_connections: '1024'
+nginx_worker_count: '4'
+
+nginx_bind_ip_address: 0.0.0.0
+nginx_listening_port: '80'
+
+nginx_ssl_bind_ip_address: 0.0.0.0
+nginx_ssl_certificate: Provided_by_customer
+nginx_ssl_listening_port: '443'
+
+nginx_expire_headers: Enabled
+nginx_expire_values: 30d
+
+nginx_gzip_compression: "on"
+nginx_gzip_types: text/plain text/css application/x-javascript text/xml application/xml
+  application/xml+rss text/javascript image/x-icon
+nginx_keepalive_timeout: '60'
+nginx_logrotate: '7'

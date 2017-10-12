@@ -1,0 +1,19 @@
+---
+redis_lvm_lv_size: 5120
+redis_lvm_vg_name: domuvg
+redis_lvm_lv_name: redis
+redis_lvm_lv_fstype: xfs
+redis_lvm_lv_mountpoint: /var/lib/redis
+redis_lvm_lv_mountpoint_options: noexec
+
+redis_port: 6379
+redis_bind: 127.0.0.1
+redis_logfile: /var/log/redis/redis.log
+redis_keepalive: 300
+redis_timeout: 0
+redis_appendonly: 'on'
+redis_appendfilename: 'appendonly.aof'
+redis_appendfsync: 'everysec'
+
+# Within the mount point
+redis_datadir: data

@@ -1,0 +1,12 @@
+---
+- name: debug server's CPU
+  debug:
+    msg: "{{ ansible_memfree_mb | int //200 }}"
+
+- name: Debug server's memory
+  debug:
+    msg: "{{ ansible_memfree_mb }}"
+
+- name: Debug server's memory/2
+  debug:
+    msg: "{{ ansible_memfree_mb | int // 100 }}"

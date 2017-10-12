@@ -1,0 +1,12 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+- name: apply configuration to node
+  hosts: all
+  become: true
+  become_user: root
+
+  roles:
+    - common
+    - users
+    - backup

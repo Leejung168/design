@@ -1,0 +1,31 @@
+---
+- name: Ensure the linux groups
+  group:
+    name="{{ item.username }}"
+    state=present
+  with_items:
+    "{{ users }}"
+
+- name: Create the linux users
+  user:
+    name={{ item.username }}
+    group={{ item.username }}
+    groups=sshers
+    password={{ item.password }}
+    shell=/bin/bash
+    createhome=yes
+    state=present
+    update_password=always
+  with_items:
+    "{{ users }}"
+
+- name: Ensure sudo permissions for customer users
+  lineinfile:
+    path: "/etc/sudoers.d/customeruser_sudofile"
+    state: present
+    create: yes
+    line: "{{ item.username }} ALL=(ALL) NOPASSWD: ALL"
+  when:
+    item.sudo | string == 'yes'
+  with_items:
+    "{{ users }}"

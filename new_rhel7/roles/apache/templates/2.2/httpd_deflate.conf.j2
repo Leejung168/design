@@ -1,0 +1,10 @@
+#
+# httpd_deflate.conf installed automatically by ChinaNetCloud
+#
+
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+AddOutputFilterByType DEFLATE text/html {{ httpd_gzip_types }}
+SetOutputFilter DEFLATE

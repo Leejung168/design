@@ -1,0 +1,55 @@
+upstream zabbix_php_workers {
+    # server unix:/tmp/php-fpm.sock;
+    server 127.0.0.1:9000;
+}
+
+# created virtual host for server monitoring
+# available only locally
+server {
+    listen 81;
+    server_name     localhost 127.0.0.1;
+  
+    access_log   /var/log/nginx/zabbix/access_zabbix-check.log  main;
+    error_log    /var/log/nginx/zabbix/error_zabbix-check.log;
+  
+    location /nginx_status {
+        stub_status on;
+        allow 127.0.0.1;
+        deny all;
+        access_log off;
+    }
+  
+    location ~^/(nc_fpm_status|nc_fpm_ping)$ {
+        include fastcgi_params;
+        fastcgi_pass zabbix_php_workers;
+        fastcgi_param SCRIPT_FILENAME $fastcgi_script_name;
+        allow 127.0.0.1;
+        deny all;
+    }
+}
+
+#For php apc check
+server {
+    listen 81;
+    server_name     localhost 127.0.0.1;
+
+    access_log   /var/log/nginx/zabbix/access_zabbix-check.log  main;
+    error_log   /var/log/nginx/zabbix/error_zabbix-check.log;
+
+    root /var/www/html;
+
+    location / {
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    location ~ \.php$ {
+        allow 127.0.0.1;
+        deny all;
+        try_files $uri      = 404;
+        fastcgi_pass zabbix_php_workers;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}

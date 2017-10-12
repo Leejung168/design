@@ -1,0 +1,14 @@
+[oss]
+access_id = {{ aliyun_access_id }}
+access_key = {{ aliyun_access_key }}
+host = {{ aliyun_oss_domain }}
+cnc_servername = {{ inventory_hostname }}
+bucket = {{ aliyun_bucket_name }}
+
+[options]
+thread_num = 10
+max_part_num = 1000
+retry_times = 3
+multi-upload = off
+send_buf_size = 8192
+timeout = 86400

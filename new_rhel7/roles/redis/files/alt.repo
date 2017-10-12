@@ -1,0 +1,6 @@
+[alt]
+name=alt
+baseurl=http://mirror.neu.edu.cn/CentALT/$releasever/$basearch
+gpg-key=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentALT
+enabled=0
+gpgcheck=1

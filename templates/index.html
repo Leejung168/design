@@ -12,16 +12,16 @@
     <title>ChinaNetCloud</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="http://localhost/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://oaas.top/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="http://localhost/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="http://oaas.top/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="http://localhost/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="http://oaas.top/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="http://localhost/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://oaas.top/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
 </head>
@@ -234,7 +234,7 @@
                          <input maxlength="50" type="text" required="required" name="server_ip" class="form-control" placeholder="114.114.114.114" value="114.114.114.114" />
                       </div>
 
-                      <div class="form-group col-md-4">z
+                      <div class="form-group col-md-4">
                           <label class="control-label">端口 Port</label>
                           <input maxlength="50" type="text" required="required" name="server_port" class="form-control" placeholder="40022" value="40022" />
                       </div>
@@ -363,7 +363,7 @@
                           </div>
                           <div class="form-group col-md-12">
                               <label class="control-label">后端 Hosts</label>
-                              <textarea maxlength="50" type="text" name="haproxy_backends" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;">srv-nc-bj-app1 10.1.10.1 80;</textarea>
+                              <textarea maxlength="500" type="text" name="haproxy_backends" required="required" class="form-control" placeholder="srv-nc-bj-app1 10.1.10.1 80;"></textarea>
                           </div>
 
                       </div>
@@ -379,7 +379,7 @@
                           </div>
                           <div class="form-group col-md-4">
                               <label class="control-label">域名 Domain</label>
-                              <input maxlength="50" type="text" required="required" name="nginxdomain" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
+                              <input maxlength="50" type="text" required="required" name="nginx_domain" class="form-control" placeholder="www.example.com" value="www.baidu.com"/>
                           </div>
 
                           <div class="form-group col-md-4">
@@ -507,7 +507,7 @@
 
                           <div class="form-group col-md-4">
                               <label class="control-label">Memory Policy(G)</label>
-                              <select name="redis_version" class="form-control">
+                              <select name="redis_maxmemory_policy" class="form-control">
                                   <option value="noeviction" selected>Noeviction</option>
                                   <option value="volatile-lru" >Volatile-lru</option>
                                   <option value="volatile-ttl" >volatile-ttl</option>
@@ -543,6 +543,10 @@
                           </div>
                           <div class="form-group col-md-8">
                               <input maxlength="50" type="password" name="backup_accesskey" required="required" class="form-control" placeholder="Access_Key" value="Access_Key"/>
+                          </div>
+
+                          <div class="form-group col-md-8">
+                              <input maxlength="50" type="text" name="backup_bucketname" required="required" class="form-control" placeholder="bucket name" value=""/>
                           </div>
 
                           <div class="form-group col-md-12">
@@ -583,6 +587,13 @@
                       </div>
 
 
+                      <div class="row Users">
+                          <h4>User</h4>
+                          <div class="form-group col-md-12">
+                              <label class="control-label">创建 Users</label>
+                              <textarea maxlength="500" type="text" name="system_users"  required="required" class="form-control" placeholder="xiaohua yes;"></textarea>
+                          </div>
+                      </div>
 
                     <div class="form-group col-md-12">
                       <button class="btn btn-primary btn-lg pull-right" type="submit">Submit</button>
@@ -660,17 +671,17 @@
     </div>
 
     <!-- jQuery -->
-    <script src="http://localhost/vendor/jquery/jquery.min.js"></script>
+    <script src="http://oaas.top/vendor/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="http://localhost/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://oaas.top/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="http://localhost/vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="http://oaas.top/vendor/metisMenu/metisMenu.min.js"></script>
 
 
     <!-- Custom Theme JavaScript -->
-    <script src="http://localhost/dist/js/sb-admin-2.js"></script>
+    <script src="http://oaas.top/dist/js/sb-admin-2.js"></script>
     <script src="{{ url_for('static', filename='index.js')}}"></script>
     <!--<script src="http://localhost/js/index.js"></script>-->
 

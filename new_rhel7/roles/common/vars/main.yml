@@ -1,0 +1,161 @@
+---
+# Define dns servre ip
+dns:
+  - 114.114.114.114
+  - 180.76.76.76
+
+# Define the groups
+linux_groups:
+  - sshers
+  - ncadmin
+  - ncbackup
+
+# Define the users (missing password)
+linux_users:
+  ncadmin:
+    group: ncadmin
+    groups: sshers,wheel
+    password: "{{ lookup('env','NCADMIN_PASSWORD') | default('$6$ynCENmYA52vwr$UN9TmMC2nx0ppr4P5knecu759vZeR/q3rKabdPLFGDMHHbYbBhMdK1jlTPRcTxKmuFm9hlIFgywlXX.gFzp4g0', true) }}"
+    shell: /bin/bash
+  ncbackup:
+    group: ncbackup
+    shell: /sbin/nologin
+
+# Define sudoers
+sudoers:
+  ncadmin:
+    notty: True
+    nopasswd: True
+  ncbackup:
+    notty: True
+    nopasswd: True
+    cmd_aliases:
+      - name: NCBACKUP
+        value: /bin/tar czCf / [A-z_/ ]* , /usr/bin/find, /bin/mkdir -p /mnt/snapshot
+      - name: NCBACKUP_LVM
+        value: /sbin/lvcreate, /sbin/lvremove, /sbin/vgdisplay, /sbin/lvdisplay, /sbin/lvs, /bin/mount, /bin/umount
+      - name: NCBACKUP_USR_LVM
+        value: /usr/sbin/lvcreate, /usr/sbin/lvremove, /usr/sbin/vgdisplay, /usr/sbin/lvdisplay, /usr/sbin/lvs
+      - name: NCBACKUP_CHOWN
+        value: /bin/chown ncbackup\:ncbackup /opt/backup/*
+
+# Define packages to install
+# Moved to its own item, due to conflicts in EPEL/CNC Repos
+#  - zabbix-agent
+packages:
+  - htop
+  - sysstat
+  - iftop
+  - rsyslog
+  - eventlog
+  - libnfnetlink
+  - libnetfilter_conntrack
+  - conntrack-tools
+  - source-highlight
+  - atop
+  - numactl
+  - libnet
+  - nc-lock
+  - sendmail-cf
+  - tcpdump
+  - bind-utils
+  - telnet
+  - nc-collector
+  - subversion
+  - vim-enhanced
+  - ntp
+  - git
+  - nc
+  - mlocate
+  - mtr
+  - nc-scripts-access
+
+lvs:
+  - name: swap
+    vg: "domuvg"
+    type: swap
+    size: 2g
+  - name: opt
+    vg: "domuvg"
+    type: ext4
+    options: defaults,data=ordered,nodev,nosuid
+    size: 5g
+    mount: /opt
+
+  - name: backup
+    vg: "domuvg"
+    type: ext4
+    options: defaults,data=ordered,nodev,nosuid
+    size: 5g
+    mount: /opt/backup
+
+
+
+# Define sysctl common to all platforms
+sysctl_common:
+  vm.swappiness: 1
+  kernel.panic: 60
+  net.ipv4.tcp_syncookies: 1
+  net.ipv4.icmp_echo_ignore_broadcasts: 1
+  net.ipv4.icmp_ignore_bogus_error_responses: 1
+  net.ipv4.conf.all.accept_redirects: 0
+  net.ipv4.conf.all.rp_filter: 0
+  net.ipv4.conf.all.log_martians: 1
+  net.ipv4.conf.all.arp_announce: 2
+  net.ipv4.conf.all.arp_ignore: 1
+  fs.file-max: 1024000
+  net.ipv4.tcp_max_syn_backlog: 65536
+  net.core.netdev_max_backlog: 32768
+  net.core.somaxconn: 32768
+  net.ipv4.tcp_timestamps: 0
+  net.ipv4.tcp_synack_retries: 2
+  net.ipv4.tcp_syn_retries: 2
+  net.ipv4.tcp_tw_recycle: 0
+  net.ipv4.tcp_tw_reuse: 1
+  net.ipv4.ip_local_port_range: 1024  65535
+  net.ipv4.tcp_keepalive_time: 1200
+  net.ipv4.tcp_keepalive_intvl: 15
+  net.ipv4.tcp_keepalive_probes: 5
+  net.ipv4.tcp_fin_timeout: 30
+
+#  Define Sysctl param for CentOS 5
+sysctl_centos5:
+  net.ipv4.ip_conntrack_max : 655360
+  net.ipv4.netfilter.ip_conntrack_tcp_max_retrans : 3
+  net.ipv4.netfilter.ip_conntrack_tcp_be_liberal : 0
+  net.ipv4.netfilter.ip_conntrack_tcp_loose : 1
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_max_retrans : 300
+  net.ipv4.netfilter.ip_conntrack_log_invalid : 0
+  net.ipv4.netfilter.ip_conntrack_generic_timeout : 600
+  net.ipv4.netfilter.ip_conntrack_icmp_timeout : 30
+  net.ipv4.netfilter.ip_conntrack_udp_timeout_stream : 180
+  net.ipv4.netfilter.ip_conntrack_udp_timeout : 30
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_close : 10
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait : 120
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_last_ack : 30
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait : 60
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait : 120
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_established : 432000
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_recv : 60
+  net.ipv4.netfilter.ip_conntrack_tcp_timeout_syn_sent : 120
+  net.ipv4.netfilter.ip_conntrack_checksum : 1
+  net.ipv4.netfilter.ip_conntrack_buckets : 8192
+  net.ipv4.netfilter.ip_conntrack_count : 89
+  net.ipv4.netfilter.ip_conntrack_max : 655360
+
+# Define Sysctl param for CentOS 6
+sysctl_centos6:
+  net.nf_conntrack_max : 655360
+  net.netfilter.nf_conntrack_log_invalid : 0
+  net.netfilter.nf_conntrack_generic_timeout : 600
+  net.netfilter.nf_conntrack_checksum : 1
+  net.netfilter.nf_conntrack_max : 655360
+
+# Define Sysctl param for CentOS 7
+sysctl_centos7:
+  net.nf_conntrack_max : 655360
+  net.netfilter.nf_conntrack_log_invalid : 0
+  net.netfilter.nf_conntrack_generic_timeout : 600
+  net.netfilter.nf_conntrack_checksum : 1
+  net.netfilter.nf_conntrack_max : 655360
+  vm.swappiness: 1

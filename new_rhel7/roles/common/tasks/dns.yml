@@ -1,0 +1,9 @@
+---
+# Change DNS 
+- name: Add DNS server ip if need
+  lineinfile:
+    dest=/etc/resolv.conf
+    state=present
+    line='nameserver {{ item }}'
+  with_items:
+    "{{ dns }}"

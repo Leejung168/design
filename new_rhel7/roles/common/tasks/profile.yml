@@ -1,0 +1,72 @@
+---
+
+# Handle everything related to the users profiles
+
+
+- name: Change History time format to /etc/bashrc
+  lineinfile: 
+    dest="{{ item }}"
+    line='export HISTTIMEFORMAT="%F %T "'
+    state=present
+  with_items: 
+    - /etc/bashrc
+    - /etc/profile
+
+- name: Ensure proper locales are generated
+  shell:
+    localedef -c -f UTF-8 -i en_US en_US.UTF-8
+
+- name: Ensure locales are enabled
+  lineinfile:
+    dest=/etc/sysconfig/i18n
+    line='{{ item }}="en_US.UTF-8"'
+    insertafter=BOF
+    state=present
+    create=yes
+  with_items:
+    - LC_ALL
+    - LANG
+    - LANGUAGE
+
+- name: Copy CNC standard nc_profile configuration to remote server
+  copy:
+    src=files/nc_profile.sh
+    dest=/etc/profile.d/nc_profile.sh
+    owner=root
+    group=root
+    mode=0644
+
+- name: Generate cmd track file for CentOS6
+  shell:
+    creates=/opt/ncscripts/cmd_track.log
+    source /etc/profile.d/nc_profile.sh
+  notify:
+    Restart rsyslog
+  when:
+    ansible_os_family == "RedHat" and ansible_distribution_major_version|int == 6
+
+- file:
+    path: /opt/ncscripts/cmd_track.log
+    state: touch
+    owner: root
+    group: root
+    mode: 0640
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
+- name: Give correct permissions to cmd_tracklog file
+  shell: |
+    chcon system_u:object_r:var_log_t:s0 /opt/ncscripts/cmd_track.log
+    source /etc/profile.d/nc_profile.sh
+  args:
+    executable: /bin/bash
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"  
+  notify: 
+    Restart rsyslog
+
+- name: Generate cmd track file 
+  shell: 
+    creates=/opt/ncscripts/cmd_track.log
+    source /etc/profile.d/nc_profile.sh
+  when: ansible_distribution != "CentOS" and ansible_distribution_major_version == "7"
+  notify:
+    Restart rsyslog

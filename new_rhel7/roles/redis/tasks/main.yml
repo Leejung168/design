@@ -1,0 +1,74 @@
+---
+- name: Set datadir root
+  set_fact:
+    fact_redis_datadir={% if not server_enable_lvm %}/var/lib/redis{% else %}{{ redis_lvm_lv_mountpoint }}{% endif %}
+  delegate_to: 127.0.0.1
+
+- name: Create lvm for redis
+  lvol:
+    vg="{{ redis_lvm_vg_name }}"
+    lv="{{ redis_lvm_lv_name }}"
+    size="{{ redis_lvm_lv_size }}"
+    state=present
+  when: server_enable_lvm
+
+- name: Ensure redis LV mount point folder
+  file:
+    dest="{{ fact_redis_datadir }}"
+    owner=root
+    group=root
+    state=directory
+
+- name: Make filesystem for redis
+  filesystem:
+    fstype="{{ redis_lvm_lv_fstype }}"
+    dev="/dev/{{ redis_lvm_vg_name }}/{{ redis_lvm_lv_name }}"
+  when: server_enable_lvm
+
+- name: Debug redis lvm
+  debug:
+    msg: "{{ redis_lvm_lv_mountpoint_options | default('') | replace(';',',') }}"
+
+- name: Mount redis root folder
+  mount:
+    name="{{ fact_redis_datadir }}"
+    src="/dev/{{ redis_lvm_vg_name }}/{{ redis_lvm_lv_name }}"
+    fstype="{{ redis_lvm_lv_fstype }}"
+    opts="{{ redis_lvm_lv_mountpoint_options | default('') | replace(';',',') }}"
+    state=mounted
+  when: server_enable_lvm
+
+- name: Ensure redis is installed (3.2)
+  yum:
+    name=redis
+    state=present
+    enablerepo=epel
+  when:
+     redis_version  == '3.2'
+
+- name: Ensure redis datadir
+  file:
+    dest="{{ fact_redis_datadir }}"
+    owner=redis
+    group=redis
+    state=directory
+
+- name: Ensure redis starts at boot
+  service:
+    name=redis
+    enabled=yes
+
+- name: Configure redis 
+  template:
+    src="{{ redis_version }}/redis.conf.j2"
+    dest=/etc/redis.conf
+    owner=root
+    group=root
+    mode=0644
+  notify:
+    - restart redis
+
+- name: Ensure redis is running
+  service:
+    name=redis
+    state=started
