@@ -1,0 +1,24 @@
+[sssd]
+config_file_version = 2
+services = ssh, sudo, nss, pam
+domains = yunchangcloud.com
+
+[nss]
+
+[sudo]
+
+[pam]
+
+[domain/yunchangcloud.com]
+id_provider = ldap
+auth_provider = ldap
+sudo_provider = ldap
+access_provider = ldap
+ldap_uri = ldaps://ldap1.service.yunchangcloud.com
+ldap_search_base = dc=yunchangcloud,dc=com
+ldap_default_bind_dn = cn=binddn,dc=yunchangcloud,dc=com
+ldap_default_authtok = {{ sssd_password }}
+cache_credentials = true
+create_homedir = true
+ldap_access_order = pwd_expire_policy_warn, ppolicy, rhost
+ldap_user_authorized_rhost = host

@@ -1,57 +1,118 @@
 ---
-  - name: Install Zabbix-API
-    pip:
-      name: zabbix-api
+- name: Download get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/get-pip.py
+    mode: 0700
 
-  - name: Create host group
-    zabbix_group:
-      server_url: "{{ server_url }}"
-      login_user: "{{ login_user }}"
-      login_password: "{{ login_password }}"
-      state: present
-      host_groups:
-        - "{{ zabbix_group }}"
+- name: Install pip
+  command: python /tmp/get-pip.py
 
-  - name: Create a new host or update an existing host's info
-    zabbix_host:
-      server_url: "{{ server_url }}"
-      login_user: "{{ login_user }}"
-      login_password: "{{ login_password }}"
-      host_name: "{{ inventory_hostname }}"
-      visible_name: "{{ inventory_hostname }}"
-      host_groups:
-        - "{{ zabbix_group }}"
-      link_templates: "{{ zabbix_template }}"
-      status: enabled
-      state: present
-      inventory_mode: manual
-      interfaces:
-        - type: 1
-          main: 1
-          useip: 1
-          ip: "{{ server_public_ip }}"
-          dns: ""
-          port: "{{ zabbix_port }}"
-      proxy: "{{ zabbix_proxy }}"
+- name: Install Zabbix-API
+  pip:
+    name: zabbix-api
 
-  - name: Create new screens or update the existing screens' items
-    zabbix_screen:
-      server_url: "{{ server_url }}"
-      login_user: "{{ login_user }}"
-      login_password: "{{ login_password }}"
-      screens:
-        - screen_name: "{{ zabbix_group }}"
-          host_group: "{{ zabbix_group }}"
-          state: present
-          graph_names:
-            - CPU %
-            - CPU Load Average
-            - Memory Usage
-            - Network Traffic ethx
-          graph_width: 200
-          graph_height: 100
+- name: Create host group
+  zabbix_group:
+    server_url: "{{ server_url }}"
+    login_user: "{{ login_user }}"
+    login_password: "{{ login_password }}"
+    state: present
+    host_groups:
+      - "{{ zabbix_group }}"
 
-  - name: Remove Zabbix-API
-    pip:
-      name: zabbix-api
-      state: absent
+- name: Create a new host or update an existing host's info
+  zabbix_host:
+    server_url: "{{ server_url }}"
+    login_user: "{{ login_user }}"
+    login_password: "{{ login_password }}"
+    host_name: "{{ inventory_hostname }}"
+    visible_name: "{{ inventory_hostname }}"
+    host_groups:
+      - "{{ zabbix_group }}"
+    link_templates: "{{ zabbix_template }}"
+    status: enabled
+    state: present
+    inventory_mode: manual
+    interfaces:
+      - type: 1
+        main: 1
+        useip: 1
+        ip: "{{ server_public_ip }}"
+        dns: ""
+        port: "{{ zabbix_port }}"
+    proxy: "{{ zabbix_proxy }}"
+
+- name: Create new screens or update the existing screens' items
+  zabbix_screen:
+    server_url: "{{ server_url }}"
+    login_user: "{{ login_user }}"
+    login_password: "{{ login_password }}"
+    screens:
+      - screen_name: "{{ zabbix_group }}"
+        host_group: "{{ zabbix_group }}"
+        state: present
+        graph_names:
+          - CPU %
+          - CPU Load Average
+          - Memory Usage
+          - Network Traffic ethx
+        graph_width: 200
+        graph_height: 100
+
+- name: Remove Zabbix-API
+  pip:
+    name: zabbix-api
+    state: absent
+
+
+#- name: Create host groups
+#  local_action:
+#    module: zabbix_group
+#    server_url: "{{ server_url }}"
+#    login_user: "{{ login_user }}"
+#    login_password: "{{ login_password }}"
+#    state: present
+#    host_groups:
+#      - "{{ zabbix_group }}"
+#
+#- name: Create a new host or update an existing host's info
+#  local_action:
+#    module: zabbix_host
+#    server_url: "{{ server_url }}"
+#    login_user: "{{ login_user }}"
+#    login_password: "{{ login_password }}"
+#    host_name: "{{ inventory_hostname }}"
+#    visible_name: "{{ inventory_hostname }}"
+#    host_groups:
+#      - "{{ zabbix_group }}"
+#    link_templates: "{{ zabbix_template }}"
+#    status: enabled
+#    state: present
+#    inventory_mode: manual
+#    interfaces:
+#      - type: 1
+#        main: 1
+#        useip: 1
+#        ip: "{{ server_public_ip }}"
+#        dns: ""
+#        port: "{{ zabbix_port }}"
+#    proxy: "{{ zabbix_proxy }}"
+#
+#- name: Create new screens or update the existing screens' items
+#  local_action:
+#    module: zabbix_screen
+#    server_url: "{{ server_url }}"
+#    login_user: "{{ login_user }}"
+#    login_password: "{{ login_password }}"
+#    screens:
+#      - screen_name: "{{ zabbix_group }}"
+#        host_group: "{{ zabbix_group }}"
+#        state: present
+#        graph_names:
+#          - CPU %
+#          - CPU Load Average
+#          - Memory Usage
+#          - Network Traffic ethx
+#        graph_width: 200
+#        graph_height: 100

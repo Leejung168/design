@@ -146,7 +146,7 @@ def translate(srv):
                          'ncbackupdb': decrypt(check_entry.ncbackupdb)}
         except:
             try:
-                pw = PasswordGroup(root=encrypt(passwords["mysql_root"]), ncadmin=encrypt(passwords["ncadmin"]),
+                pw = PasswordGroup(root=encrypt(passwords["root"]), ncadmin=encrypt(passwords["ncadmin"]),
                                    mysql_root=encrypt(passwords["mysql_root"]), gpg_key=encrypt(passwords["gpg_key"]),
                                    nccheckdb=encrypt(passwords["nccheckdb"]), ncbackupdb=encrypt(passwords["ncbackupdb"]),
                                    ncdba=encrypt(passwords["ncdba"]), owner=foreign_key)
@@ -175,7 +175,7 @@ def translate(srv):
         if i == "Mysql":
             zabbix_template.append("NC_Template-Discovery_MySQL")
             backup = encode(info["mysql_backup"])
-            server_info["mysql_root_pass"] = passwords["root"]
+            server_info["mysql_root_pass"] = passwords["mysql_root"]
             server_info["mysql_nccheckdb_pass"] = passwords["nccheckdb"]
             server_info["mysql_ncdba_pass"] = passwords["ncdba"]
             if backup == "Yes":
@@ -262,6 +262,10 @@ def translate(srv):
 
         if len(user) > 2:
             print "Wrong input at User area !!!"
+
+    # Obtain root and ncadmin's password
+    server_info["ncadmin"] = md5_crypt.hash(passwords["ncadmin"])
+    server_info["root"] = md5_crypt.hash(passwords["root"])
 
     # Write customer users info into file
     with open(Base_Home + "tmp/." + srv.sservername, 'w') as f:

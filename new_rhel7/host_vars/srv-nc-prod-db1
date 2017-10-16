@@ -1,7 +1,7 @@
 gpg_key: mFczvg3sypiYOHG1OpyaPxFAxaWk9Fkt
 server_enable_lvm: false
 users:
-- {password: $1$p93WkScr$DBQISuPsDQufR4FP.UriB., sudo: 'yes', username: xiaoli}
+- {password: $1$P4CZDTyO$MDbeIR9w8jSv3SBy6ZxEk0, sudo: 'yes', username: xiaoli}
 zabbix_group: lz
 zabbix_proxy: srv-nc-bj-zabbixproxy1
 zabbix_template: [NC_Template_Linux, NC_Template-Discovery_IOStat, NC_Template_VMstat]

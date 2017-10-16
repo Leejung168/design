@@ -159,3 +159,8 @@ sysctl_centos7:
   net.netfilter.nf_conntrack_checksum : 1
   net.netfilter.nf_conntrack_max : 655360
   vm.swappiness: 1
+
+
+# SSSD Password
+
+sssd_password: FV58DSi3XiC7dwTWxqZC

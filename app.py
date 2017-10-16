@@ -345,7 +345,7 @@ def s_delete():
 
         session.delete(server_delete)
         session.commit()
-        session.close()
+        # session.close()
     except Exception, e:
         errors = {"Status": "500", "info": "Failed to delete server {0}".format(servername), "Reason": "Internal Error->Database"}
         return render_template("error.html", messages=errors), 500

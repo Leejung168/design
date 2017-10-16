@@ -29,4 +29,4 @@ def play(username, password, port, host_file, playbook_path):
 
 
 if __name__ == '__main__':
-    play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz-test1", playbook_path="/Users/lambertli/pycharm/python2/design/new_rhel7/srv-lz-test1.yml")
+    play(username="root", password="lambert", port="22", host_file="/tmp/.srv-lz-number2", playbook_path="/Users/lambertli/pycharm/python2/Lambert-Tool/design/new_rhel7/main.yml")

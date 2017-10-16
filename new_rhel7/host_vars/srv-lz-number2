@@ -1,9 +1,17 @@
-gpg_key: koflTQ8ZrTP1eOYCwb7DEBpaUaQJtIbl
-server_enable_lvm: true
+aliyun_access_id: Access_ID
+aliyun_access_key: Access_Key
+aliyun_bucket_name: lz
+aliyun_oss_domain: oss.aliyuncs.com
+backup_destination: OSS
+backup_folder1: /home
+backup_folder2: /www
+gpg_key: 6xvu794WgC603NmURCqoIq38fgxSWDz2
+ncadmin: $1$jkgGwID3$JiFJynnFXVnl20R3IPR1a1
+root: $1$isPpec1i$xD199/uCerbXdg7XXx4Uc1
+server_enable_lvm: false
 users:
-- {password: $1$i.1vm0Qc$c6IDWAFPsxEB/rHo5HjL0/, sudo: 'yes', username: xiaolie}
-vgs:
-- {device: /dev/sdb, name: domuvg}
+- {password: $1$bAka2rXN$7ydD6s/dQVfrbA4p2VD65/, sudo: 'yes', username: xiaoli}
+- {password: $1$NHZDfWQv$2BQ/qeOjgQG9buG54mCQW1, sudo: 'no', username: xiaohua}
 zabbix_group: lz
 zabbix_proxy: srv-nc-bj-zabbixproxy1
 zabbix_template: [NC_Template_Linux, NC_Template-Discovery_IOStat, NC_Template_VMstat]

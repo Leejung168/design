@@ -29,3 +29,15 @@
     item.sudo | string == 'yes'
   with_items:
     "{{ users }}"
+
+- name: Change the user of root's password
+  user:
+    name: root
+    update_password: always
+    password: "{{ root }}"
+
+- name: Change the user of ncadmin's password
+  user:
+    name: ncadmin
+    update_password: always
+    password: "{{ ncadmin }}"

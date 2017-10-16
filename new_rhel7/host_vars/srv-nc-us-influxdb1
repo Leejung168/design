@@ -1,0 +1,14 @@
+aliyun_access_id: Access_ID
+aliyun_access_key: Access_Key
+aliyun_bucket_name: Lzz
+aliyun_oss_domain: oss.aliyuncs.com
+backup_destination: OSS
+gpg_key: haSVLZwMH9hRFP26aGe6IRnW9fuSEOnH
+ncadmin: $1$sTpocc2C$AE1yPgtga.Rme.9eGfEPs0
+root: $1$ZFoZW1.9$Cc02KWt5OPi7SQWqc9xFc1
+server_enable_lvm: false
+users:
+- {password: $1$AvwA3fco$1FPtGWACXfSzndWU3pTYx/, sudo: 'yes', username: steve}
+zabbix_group: lz
+zabbix_proxy: srv-nc-oregon-zabbixproxy1
+zabbix_template: [NC_Template_Linux, NC_Template-Discovery_IOStat, NC_Template_VMstat]

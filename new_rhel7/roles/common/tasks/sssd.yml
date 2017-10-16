@@ -1,0 +1,69 @@
+---
+- name: Install packages for SSSD
+  yum:
+    name="{{ item }}"
+    state=latest
+    enablerepo=cnc
+  with_items:
+    - sssd
+
+- name: Copy sssd.conf.j2 to Server
+  template:
+    backup=yes
+    force=yes
+    src=sssd.conf.j2
+    dest=/etc/sssd/sssd.conf
+    mode=0600
+    owner=root
+    group=root
+
+- name: Backup sshd_config file
+  command:
+    creates=/etc/ssh/sshd_config.bck
+    cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bck
+
+- name: '[SSH] Allow Authorized via sssd'
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys'
+    insertafter='#AuthorizedKeysCommand none'
+
+- name: '[SSH] Allow Authorized via sssd'
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='AuthorizedKeysCommandUser nobody'
+    insertafter='#AuthorizedKeysCommandUser nobody'
+
+- name: '[SSH] Disable UseDNS'
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    state=present
+    line='UseDNS no'
+    insertafter='#UseDNS yes'
+  notify:
+    Restart ssh
+
+- name: 'Allow sudo via sssd login'
+  lineinfile:
+    path: /etc/nsswitch.conf
+    line: 'sudoers: files sss'
+
+- name: 'PAM configuration done via authconfig tool'
+  command: authconfig --enablesssd --enablesssdauth --enablemkhomedir --update --updateall
+
+- name: 'Ensure sssd start when boot'
+  service:
+    name=sssd
+    enabled=yes
+
+- name: Ensure sssd is running
+  service:
+    name=sssd
+    state=started
+
+
+
+
+

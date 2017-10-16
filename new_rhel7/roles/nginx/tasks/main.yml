@@ -53,6 +53,7 @@
   yum:
     name=nginx
     state=present
+
 - name: Ensure nginx start at boot
   service:
     name=nginx
