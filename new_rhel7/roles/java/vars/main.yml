@@ -1,5 +1,0 @@
----
-java_arch: 64Bit
-java_environment: /ect/profile
-java_provider: Oracle
-java_type: JDK

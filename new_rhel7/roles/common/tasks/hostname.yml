@@ -1,4 +1,0 @@
----
-- name: Change server host name
-  hostname:
-    name={{ inventory_hostname }}

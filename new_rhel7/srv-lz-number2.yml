@@ -1,5 +1,0 @@
-- become: true
-  become_user: root
-  hosts: all
-  name: apply configuration to node
-  roles: [common, users, backup, zabbix]

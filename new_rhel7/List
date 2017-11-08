@@ -1,6 +1,0 @@
-1. haproxy 开机启动脚本
-2. Hapaoxy的cnc-haproxy-status/cnc-haproxy-console不管用
-3. Haproxy的开机启动不管用
-4. Redis的内核参数问题还没有调整
-5. cmd_track不成功
-6. Zabbix还没有写
